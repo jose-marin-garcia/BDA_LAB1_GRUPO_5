@@ -1,13 +1,15 @@
 package Laboratorio1BdaGrupo5.BackendLab1.model;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.math.BigDecimal;
 
 
 @Entity
-@Table
-public class producto {
+@Table(name = "producto", schema = "public")
+@Data
+public class Producto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
