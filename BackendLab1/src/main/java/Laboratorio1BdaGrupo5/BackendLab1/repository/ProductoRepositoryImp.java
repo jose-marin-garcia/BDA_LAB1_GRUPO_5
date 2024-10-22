@@ -20,5 +20,4 @@ public interface ProductoRepositoryImp implements ProductoRepository {
                     .executeAndFetchFirst(Producto.class);
         }
     }
-
 }

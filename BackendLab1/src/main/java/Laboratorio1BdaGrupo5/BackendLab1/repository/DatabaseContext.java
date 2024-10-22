@@ -1,4 +1,4 @@
-package Laboratorio1BdaGrupo5.BackendLab1.config;
+package Laboratorio1BdaGrupo5.BackendLab1.repository;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
