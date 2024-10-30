@@ -3,6 +3,7 @@ package Laboratorio1BdaGrupo5.BackendLab1.service;
 
 import Laboratorio1BdaGrupo5.BackendLab1.models.DetalleOrden;
 import Laboratorio1BdaGrupo5.BackendLab1.repository.DetalleOrdenRepository;
+import Laboratorio1BdaGrupo5.BackendLab1.repository.DetalleOrdenRepositoryImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +13,7 @@ import java.util.List;
 public class DetalleOrdenService {
 
     @Autowired
-    DetalleOrdenRepository detalleOrdenRepository;
+    DetalleOrdenRepositoryImp detalleOrdenRepository;
 
     public void createDetalleOrden(DetalleOrden detalleOrden){
         detalleOrdenRepository.createDetalleOrden(detalleOrden);
