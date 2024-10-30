@@ -1,4 +1,4 @@
-package Laboratorio1BdaGrupo5.BackendLab1.model;
+package Laboratorio1BdaGrupo5.BackendLab1.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,6 +15,6 @@ public class Producto {
     private Double precio;
     private Integer stock;
     private String estado;
-    private Categoria categoria;
+    //private Categoria categoria;
 
 }
