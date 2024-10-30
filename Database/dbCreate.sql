@@ -1,10 +1,10 @@
 -------------------------------------------------------
--- Crear Lab1BDA
--- Database: Lab1BDA
+-- Crear lab1bda
+-- Database: lab1bda
 -------------------------------------------------------
-DROP DATABASE IF EXISTS "Lab1BDA";
+DROP DATABASE IF EXISTS "lab1bda";
 
-CREATE DATABASE "Lab1BDA"
+CREATE DATABASE "lab1bda"
     WITH
     OWNER = postgres
     ENCODING = 'UTF8'
@@ -14,7 +14,15 @@ CREATE DATABASE "Lab1BDA"
     CONNECTION LIMIT = -1
     IS_TEMPLATE = False;
 
-\c "Lab1BDA";  -- Cambia a la base de datos creada
+\c "lab1bda";  -- Cambia a la base de datos creada
+
+-------------------------------------------------------
+-- Table "categoria"
+-------------------------------------------------------
+CREATE TABLE IF NOT EXISTS "categoria" (
+    "id_categoria" SERIAL PRIMARY KEY,
+    "nombre" VARCHAR(100) NOT NULL
+);
 
 -------------------------------------------------------
 -- Table "producto"
@@ -32,14 +40,6 @@ CREATE TABLE IF NOT EXISTS "producto" (
         REFERENCES "categoria" ("id_categoria")
         ON DELETE SET NULL
         ON UPDATE CASCADE
-);
-
--------------------------------------------------------
--- Table "categoria"
--------------------------------------------------------
-CREATE TABLE IF NOT EXISTS "categoria" (
-    "id_categoria" SERIAL PRIMARY KEY,
-    "nombre" VARCHAR(100) NOT NULL
 );
 
 -------------------------------------------------------
@@ -87,5 +87,5 @@ CREATE TABLE IF NOT EXISTS "detalle_orden" (
         FOREIGN KEY ("id_producto")
         REFERENCES "producto" ("id_producto")
         ON DELETE CASCADE
-        ON UPDATE CASCADE
+        ON UPDATE CASCADE
 );
