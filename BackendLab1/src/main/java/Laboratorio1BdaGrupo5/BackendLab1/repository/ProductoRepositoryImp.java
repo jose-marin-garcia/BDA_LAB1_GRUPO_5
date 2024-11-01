@@ -19,11 +19,13 @@ public class ProductoRepositoryImp implements ProductoRepository {
     public List<Producto> getProductos(int limit, int offset) {
         String queryText = "SELECT * FROM producto LIMIT :limit OFFSET :offset";
         try (Connection connection = sql2o.open()) {
+            System.out.println("Conexión exitosa a la base de datos");
             return connection.createQuery(queryText)
                     .addParameter("limit", limit)
                     .addParameter("offset", offset)
                     .executeAndFetch(Producto.class);
         } catch (Exception e) {
+            System.err.println("Error en la conexión a la base de datos: " + e.getMessage());
             throw new RuntimeException("Error al obtener productos", e);
         }
     }
@@ -32,11 +34,13 @@ public class ProductoRepositoryImp implements ProductoRepository {
     public Producto getProductoById(Integer idProducto) {
         String queryText = "SELECT * FROM producto WHERE id_producto = :idProducto";
         try (Connection connection = sql2o.open()) {
+            System.out.println("Conexión exitosa a la base de datos");
             Producto producto = connection.createQuery(queryText)
                     .addParameter("idProducto", idProducto)
                     .executeAndFetchFirst(Producto.class);
             return producto;
         } catch (Exception e) {
+            System.err.println("Error en la conexión a la base de datos: " + e.getMessage());
             throw new RuntimeException("Error al obtener el producto por ID", e);
         }
     }
@@ -46,6 +50,8 @@ public class ProductoRepositoryImp implements ProductoRepository {
         String queryText = "INSERT INTO producto (nombre, descripcion, precio, stock, estado) " +
                 "VALUES (:nombre, :descripcion, :precio, :stock, :estado)";
         try (Connection connection = sql2o.open()) {
+            System.out.println("Conexión exitosa a la base de datos");
+            producto.setEstado(producto.getEstado().toLowerCase());
             connection.createQuery(queryText)
                     .addParameter("nombre", producto.getNombre())
                     .addParameter("descripcion", producto.getDescripcion())
@@ -54,6 +60,7 @@ public class ProductoRepositoryImp implements ProductoRepository {
                     .addParameter("estado", producto.getEstado())
                     .executeUpdate();
         } catch (Exception e) {
+            System.err.println("Error en la conexión a la base de datos: " + e.getMessage());
             throw new RuntimeException("Error al crear el producto", e);
         }
     }
@@ -63,15 +70,17 @@ public class ProductoRepositoryImp implements ProductoRepository {
         String queryText = "UPDATE producto SET nombre = :nombre, descripcion = :descripcion, " +
                 "precio = :precio, stock = :stock, estado = :estado WHERE id_producto = :idProducto";
         try (Connection connection = sql2o.open()) {
+            System.out.println("Conexión exitosa a la base de datos");
             connection.createQuery(queryText)
                     .addParameter("nombre", producto.getNombre())
                     .addParameter("descripcion", producto.getDescripcion())
                     .addParameter("precio", producto.getPrecio())
                     .addParameter("stock", producto.getStock())
                     .addParameter("estado", producto.getEstado())
-                    .addParameter("idProducto", producto.getIdProducto())
+                    .addParameter("idProducto", producto.getId_producto())
                     .executeUpdate();
         } catch (Exception e) {
+            System.err.println("Error en la conexión a la base de datos: " + e.getMessage());
             throw new RuntimeException("Error al actualizar el producto", e);
         }
     }
@@ -80,10 +89,12 @@ public class ProductoRepositoryImp implements ProductoRepository {
     public void deleteProducto(Integer idProducto) {
         String queryText = "DELETE FROM producto WHERE id_producto = :idProducto";
         try (Connection connection = sql2o.open()) {
+            System.out.println("Conexión exitosa a la base de datos");
             connection.createQuery(queryText)
                     .addParameter("idProducto", idProducto)
                     .executeUpdate();
         } catch (Exception e) {
+            System.err.println("Error en la conexión a la base de datos: " + e.getMessage());
             throw new RuntimeException("Error al eliminar el producto", e);
         }
     }

@@ -48,7 +48,7 @@ public class ProductoService {
     public void updateProducto(Producto producto) {
         try {
             // Verificar que el producto existe antes de actualizar
-            getProductoById(producto.getIdProducto());
+            getProductoById(producto.getId_producto());
             productoRepository.updateProducto(producto);
         } catch (Exception e) {
             throw new RuntimeException("Error al actualizar el producto", e);

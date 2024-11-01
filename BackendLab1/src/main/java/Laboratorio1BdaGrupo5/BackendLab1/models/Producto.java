@@ -9,12 +9,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Producto {
 
-    private Integer idProducto;
+    private Integer id_producto;
     private String nombre;
     private String descripcion;
     private Double precio;
     private Integer stock;
     private String estado;
-    //private Categoria categoria;
+    //private Categoria id_categoria;
 
 }
