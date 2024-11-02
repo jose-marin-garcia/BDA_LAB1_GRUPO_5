@@ -15,6 +15,6 @@ public class Producto {
     private Double precio;
     private Integer stock;
     private String estado;
-    //private Categoria id_categoria;
+    private Integer id_categoria;
 
 }
