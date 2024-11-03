@@ -6,7 +6,8 @@
     "dev": "nuxt dev",
     "build": "nuxt build",
     "start": "nuxt start",
-    "generate": "nuxt generate"
+    "generate": "nuxt generate",
+    "build:css": "tailwindcss build assets/css/tailwind.css -o public/css/tailwind.css"
   },
   "dependencies": {
     "@mdi/font": "^7.4.47",
@@ -16,7 +17,7 @@
     "vue": "^3.5.12",
     "vue-server-renderer": "^2.2.6",
     "vue-template-compiler": "^0.1.0",
-    "vuetify": "^3.7.3"
+    "vuetify": "^3.7.0-beta.1"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.20",

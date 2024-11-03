@@ -1,17 +1,54 @@
+<!-- layouts/default.vue -->
 <template>
     <v-app>
-      <v-app-bar app color="primary" dark>
-        <v-app-bar-nav-icon></v-app-bar-nav-icon>
-        <v-toolbar-title>Mi E-commerce</v-toolbar-title>
-      </v-app-bar>
-      <v-main>
-        <nuxt-page />
-      </v-main>
-      <v-footer app color="primary" dark>
-        <v-col class="text-center white--text">
-          <a href="https://github.com/tu-repo" target="_blank" class="white--text">Repositorio del Proyecto</a>
-        </v-col>
-      </v-footer>
+        <!-- App Bar -->
+        <v-app-bar>
+
+            <!-- Enlaces de navegación -->
+            <v-spacer></v-spacer>
+            <v-btn text class="mx-2" href="/">Productos</v-btn>
+            <v-btn text class="mx-2" href="/pedidos">Mis Pedidos</v-btn>
+            <v-btn text class="mx-2" href="/perfil">Mi Cuenta</v-btn>
+            <!-- Botón de carrito de compras -->
+            <v-btn icon color="primary" href="/cart">
+                <v-icon>mdi-cart</v-icon>
+                <span v-if="cartCount > 0" class="badge">{{ cartCount }}</span>
+            </v-btn>
+            <v-spacer></v-spacer>
+
+        </v-app-bar>
+
+        <!-- Contenido Principal -->
+        <v-main>
+            <nuxt-page />
+        </v-main>
+
+        <!-- Footer (Opcional) -->
+        <v-footer color="primary" dark>
+            <v-col class="text-center white--text">
+                <a href="https://github.com/tu-repo" target="_blank" class="white--text">Repositorio del Proyecto</a>
+            </v-col>
+        </v-footer>
     </v-app>
-  </template>
-  
+</template>
+
+<script setup>
+import { useCart } from '@/composables/useCart.js'
+
+// Obtenemos el estado del carrito
+const { cartCount } = useCart()
+
+</script>
+
+<style scoped>
+.badge {
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 0 8px;
+    font-size: 12px;
+    position: absolute;
+    top: 8px;
+    right: 8px;
+}
+</style>
