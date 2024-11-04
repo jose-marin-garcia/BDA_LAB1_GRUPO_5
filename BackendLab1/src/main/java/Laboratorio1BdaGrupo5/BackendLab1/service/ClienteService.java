@@ -33,7 +33,7 @@ public class ClienteService {
 
     public void updateCliente(Cliente cliente) {
         try {
-            if (getClienteById(cliente.getIdCliente()) != null) {
+            if (getClienteById(cliente.getId_cliente()) != null) {
                 clienteRepository.updateCliente(cliente);
             } else {
                 throw new RuntimeException("El cliente no existe en la base de datos");

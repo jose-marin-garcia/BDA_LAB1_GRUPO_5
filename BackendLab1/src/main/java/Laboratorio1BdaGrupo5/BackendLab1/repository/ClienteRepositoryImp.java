@@ -12,12 +12,12 @@ public class ClienteRepositoryImp implements ClienteRepository {
     private Sql2o sql2o;
 
     @Override
-    public Cliente getClienteById(Integer idCliente) {
-        String queryText = "SELECT * FROM producto WHERE id_cliente = :idCliente";
+    public Cliente getClienteById(Integer id_cliente) {
+        String queryText = "SELECT * FROM cliente WHERE id_cliente = :id_cliente";
         try (Connection connection = sql2o.open()) {
             System.out.println("Conexión exitosa a la base de datos");
             Cliente cliente = connection.createQuery(queryText)
-                    .addParameter("idCliente", idCliente)
+                    .addParameter("id_cliente", id_cliente)
                     .executeAndFetchFirst(Cliente.class);
             return cliente;
         } catch (Exception e) {
@@ -28,11 +28,11 @@ public class ClienteRepositoryImp implements ClienteRepository {
 
     @Override
     public void createCliente(Cliente cliente) {
-        String queryText = "INSERT INTO cliente (idCliente, nombre, direccion, email, telefono) " +
-                "VALUES (:idCliente, :nombre, :direccion, :email, :telefono)";
+        String queryText = "INSERT INTO cliente (id_cliente, nombre, direccion, email, telefono) " +
+                "VALUES (:id_cliente, :nombre, :direccion, :email, :telefono)";
         try (Connection connection = sql2o.open()) {
             connection.createQuery(queryText)
-                    .addParameter("idCliente", cliente.getIdCliente())
+                    .addParameter("id_cliente", cliente.getId_cliente())
                     .addParameter("nombre", cliente.getNombre())
                     .addParameter("direccion", cliente.getDireccion())
                     .addParameter("email", cliente.getEmail())
@@ -47,7 +47,7 @@ public class ClienteRepositoryImp implements ClienteRepository {
     @Override
     public void updateCliente(Cliente cliente) {
         String queryText = "UPDATE cliente SET nombre = :nombre, direccion = :direccion, " +
-                "email = :email, telefono = :telefono WHERE id_cliente = :idCliente";
+                "email = :email, telefono = :telefono WHERE id_cliente = :id_cliente";
         try (Connection connection = sql2o.open()) {
             System.out.println("Conexión exitosa a la base de datos");
             connection.createQuery(queryText)
@@ -55,7 +55,7 @@ public class ClienteRepositoryImp implements ClienteRepository {
                     .addParameter("descripcion", cliente.getDireccion())
                     .addParameter("precio", cliente.getEmail())
                     .addParameter("stock", cliente.getTelefono())
-                    .addParameter("idCliente", cliente.getIdCliente())
+                    .addParameter("id_cliente", cliente.getId_cliente())
                     .executeUpdate();
         } catch (Exception e) {
             System.err.println("Error en la conexión a la base de datos: " + e.getMessage());
@@ -64,12 +64,12 @@ public class ClienteRepositoryImp implements ClienteRepository {
     }
 
     @Override
-    public void deleteCliente(Integer idCliente) {
-        String queryText = "DELETE FROM cliente WHERE id_cliente = :idCliente";
+    public void deleteCliente(Integer id_cliente) {
+        String queryText = "DELETE FROM cliente WHERE id_cliente = :id_cliente";
         try (Connection connection = sql2o.open()) {
             System.out.println("Conexión exitosa a la base de datos");
             connection.createQuery(queryText)
-                    .addParameter("idCliente", idCliente)
+                    .addParameter("id_cliente", id_cliente)
                     .executeUpdate();
         } catch (Exception e) {
             System.err.println("Error en la conexión a la base de datos: " + e.getMessage());

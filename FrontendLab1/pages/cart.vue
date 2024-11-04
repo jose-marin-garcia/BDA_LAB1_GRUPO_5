@@ -18,6 +18,9 @@
         <p>Subtotal: ${{ item.precio * item.quantity }}</p>
       </div>
       <div class="mt-6 flex justify-between items-center">
+        <v-btn color="primary" @click="clearCart">Vaciar carrito</v-btn>
+      </div>
+      <div class="mt-6 flex justify-between items-center">
         <span class="text-xl font-bold">Total: ${{ cartTotal }}</span>
         <v-btn color="primary" @click="checkout">Pagar</v-btn>
       </div>
