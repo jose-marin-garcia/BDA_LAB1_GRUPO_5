@@ -12,5 +12,5 @@ public interface ProductoRepository {
     void createProducto(Producto producto);
     void updateProducto(Producto producto);
     void deleteProducto(Integer idProducto);
-
+    long getTotalCount();
 }

@@ -65,4 +65,11 @@ public class ProductoService {
         }
     }
 
+    public long getTotalCount() {
+        try {
+            return productoRepository.getTotalCount();
+        } catch (Exception e) {
+            throw new RuntimeException("Error al obtener el total de productos", e);
+        }
+    }
 }

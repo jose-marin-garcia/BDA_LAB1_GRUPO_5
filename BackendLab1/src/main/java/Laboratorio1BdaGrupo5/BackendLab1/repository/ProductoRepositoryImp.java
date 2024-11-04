@@ -98,4 +98,18 @@ public class ProductoRepositoryImp implements ProductoRepository {
             throw new RuntimeException("Error al eliminar el producto", e);
         }
     }
+
+    @Override
+    public long getTotalCount() {
+        String queryText = "SELECT COUNT(*) FROM producto";
+        try (Connection connection = sql2o.open()) {
+            System.out.println("Conexión exitosa a la base de datos");
+            System.out.println("Total de productos: " + connection.createQuery(queryText).executeScalar(Long.class));
+            return connection.createQuery(queryText)
+                    .executeScalar(Long.class);
+        } catch (Exception e) {
+            System.err.println("Error en la conexión a la base de datos: " + e.getMessage());
+            throw new RuntimeException("Error al obtener el total de productos", e);
+        }
+    }
 }
