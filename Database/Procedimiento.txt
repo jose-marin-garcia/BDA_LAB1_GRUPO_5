@@ -1,0 +1,91 @@
+-- Tabla de auditoria
+CREATE TABLE query_audit (
+    id_query SERIAL PRIMARY KEY,
+    usuario VARCHAR(255),        
+    tipo_operacion VARCHAR(10),    -- "INSERT", "UPDATE", "DELETE"
+    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    consulta TEXT
+);
+
+-- Función de auditoria
+CREATE OR REPLACE FUNCTION registrar_actividad()
+RETURNS TRIGGER AS $$
+BEGIN
+    INSERT INTO query_audit (usuario, tipo_operacion, consulta)
+    VALUES (session_user, TG_OP, current_query());  -- session_user captura el usuario actual
+
+    IF (TG_OP = 'DELETE') THEN
+        RETURN OLD;
+    ELSE
+        RETURN NEW;
+    END IF;
+END;
+$$ LANGUAGE plpgsql;
+
+
+-- Trigger para la tabla cliente
+CREATE TRIGGER audit_client
+AFTER INSERT OR UPDATE OR DELETE ON cliente
+FOR EACH ROW EXECUTE FUNCTION registrar_actividad();
+
+-- Trigger para la tabla detalle_orden
+CREATE TRIGGER audit_detail_order
+AFTER INSERT OR UPDATE OR DELETE ON detalle_orden
+FOR EACH ROW EXECUTE FUNCTION registrar_actividad();
+
+-- Trigger para la tabla categoria
+CREATE TRIGGER audit_category
+AFTER INSERT OR UPDATE OR DELETE ON categoria
+FOR EACH ROW EXECUTE FUNCTION registrar_actividad();
+
+-- Trigger para la tabla producto
+CREATE TRIGGER audit_product
+AFTER INSERT OR UPDATE OR DELETE ON producto
+FOR EACH ROW EXECUTE FUNCTION registrar_actividad();
+
+-- Trigger para la tabla orden
+CREATE TRIGGER audit_order
+AFTER INSERT OR UPDATE OR DELETE ON orden
+FOR EACH ROW EXECUTE FUNCTION registrar_actividad();
+
+-- Procedimiento de almacenado para el reporte
+CREATE OR REPLACE FUNCTION reporte_act_client()
+RETURNS TABLE(
+    usuario VARCHAR(255),
+    inserts BIGINT,
+    updates BIGINT,
+    deletes BIGINT,
+    total BIGINT
+) AS $$
+BEGIN
+    RETURN QUERY
+    SELECT 
+        query_audit.usuario,
+        COUNT(CASE WHEN tipo_operacion = 'INSERT' THEN 1 END) AS inserts,
+        COUNT(CASE WHEN tipo_operacion = 'UPDATE' THEN 1 END) AS updates,
+        COUNT(CASE WHEN tipo_operacion = 'DELETE' THEN 1 END) AS deletes,
+        COUNT(*) AS total
+    FROM query_audit
+    GROUP BY query_audit.usuario
+    ORDER BY total DESC;
+END;
+$$ LANGUAGE plpgsql;
+
+--Para probarlo
+--Hacer las operaciones
+INSERT INTO cliente (id_cliente, nombre) VALUES (1, 'Juan Perez');
+UPDATE cliente SET nombre = 'Juan Carlos Perez' WHERE id_cliente = 1;
+DELETE FROM cliente WHERE id_cliente = 1;
+
+--Revisar que se registran de manera correcta
+SELECT * FROM query_audit;
+
+--El reporte
+SELECT * FROM reporte_act_client();
+
+
+
+
+
+
+
