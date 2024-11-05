@@ -26,7 +26,7 @@ public class CategoriaController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<String> createCliente(@RequestBody Categoria categoria) {
+    public ResponseEntity<String> createCategoria(@RequestBody Categoria categoria) {
         try {
             categoriaService.createCategoria(categoria);
             return ResponseEntity.status(HttpStatus.CREATED)
@@ -38,7 +38,7 @@ public class CategoriaController {
     }
 
     @PutMapping("/")
-    public ResponseEntity<String> updateCliente(@RequestBody Categoria categoria) {
+    public ResponseEntity<String> updateCategoria(@RequestBody Categoria categoria) {
         try {
             categoriaService.updateCategoria(categoria);
             return ResponseEntity.ok("Categoria actualizada exitosamente");
@@ -49,7 +49,7 @@ public class CategoriaController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteCliente(@PathVariable Integer id) {
+    public ResponseEntity<String> deleteCategoria(@PathVariable Integer id) {
         try {
             categoriaService.deleteCategoria(id);
             return ResponseEntity.ok("Categoria eliminada exitosamente");
