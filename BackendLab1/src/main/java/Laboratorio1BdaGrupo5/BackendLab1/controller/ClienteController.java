@@ -25,12 +25,12 @@ public class ClienteController {
         }
     }
 
-    @PostMapping("/")
+    @PostMapping("/register")
     public ResponseEntity<String> createCliente(@RequestBody Cliente cliente) {
         try {
-            clienteService.createCliente(cliente);
+            clienteService.createCliente(cliente.getNombre(), cliente.getDireccion(), cliente.getEmail(), cliente.getTelefono(), cliente.getPassword());
             return ResponseEntity.status(HttpStatus.CREATED)
-                    .body("Orden creada exitosamente");
+                    .body("Cliente creado exitosamente");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body("Error al crear el Cliente");

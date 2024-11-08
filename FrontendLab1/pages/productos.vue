@@ -11,9 +11,9 @@
             Stock: {{ product.stock }}
           </span>
         </div>
-        <button @click="() => { addToCart(product); console.log(cartItems.value);
- }"
-          class="w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 disabled:bg-gray-400"
+        <button @click="() => {
+          addToCart(product); console.log(cartItems.value);
+        }" class="w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 disabled:bg-gray-400"
           :disabled="product.stock === 0">
           {{ product.stock === 0 ? 'Agotado' : 'Agregar a carrito' }}
         </button>
@@ -21,12 +21,13 @@
     </div>
 
     <!-- Pagination Component -->
-    <v-pagination v-model:page="currentPage" :length="totalPages" @input="fetchProducts" color="primary" class="mt-6" />
+    <v-pagination v-model="currentPage" :length="totalPages" color="primary" class="mt-6" />
+
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import { useCart } from '@/composables/useCart.js'
 import axios from 'axios'
 
@@ -37,9 +38,8 @@ const API_URL = 'http://localhost:8080/api'
 const { addToCart } = useCart()
 
 const fetchProducts = async () => {
-  const limit = 10; // Número de productos por página
+  const limit = 8; // Número de productos por página
   const offset = (currentPage.value - 1) * limit;
-
   try {
     const response = await axios.get(`${API_URL}/producto`, {
       params: {
@@ -47,13 +47,14 @@ const fetchProducts = async () => {
         offset: offset
       }
     });
-    products.value = response.data;
+    products.value = response.data.products;
     totalPages.value = Math.ceil(response.data.totalCount / limit);
   } catch (error) {
     console.error('Error fetching products:', error);
   }
 };
 
+watch(currentPage, fetchProducts)
 
 onMounted(fetchProducts)
 

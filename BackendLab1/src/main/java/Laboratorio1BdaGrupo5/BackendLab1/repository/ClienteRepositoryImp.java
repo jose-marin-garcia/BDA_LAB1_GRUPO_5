@@ -77,4 +77,19 @@ public class ClienteRepositoryImp implements ClienteRepository {
         }
     }
 
+    @Override
+    public Cliente findByEmail(String email) {
+        String queryText = "SELECT * FROM cliente WHERE email = :email";
+        try (Connection connection = sql2o.open()) {
+            System.out.println("Conexión exitosa a la base de datos");
+            Cliente cliente = connection.createQuery(queryText)
+                    .addParameter("email", email)
+                    .executeAndFetchFirst(Cliente.class);
+            return cliente;
+        } catch (Exception e) {
+            System.err.println("Error en la conexión a la base de datos: " + e.getMessage());
+            throw new RuntimeException("Error al obtener el cliente por email", e);
+        }
+    }
+
 }

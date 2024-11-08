@@ -2,6 +2,7 @@ package Laboratorio1BdaGrupo5.BackendLab1.service;
 
 import Laboratorio1BdaGrupo5.BackendLab1.models.Cliente;
 import Laboratorio1BdaGrupo5.BackendLab1.repository.ClienteRepositoryImp;
+import ch.qos.logback.classic.encoder.JsonEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,8 +24,10 @@ public class ClienteService {
         }
     }
 
-    public void createCliente(Cliente cliente) {
+    public void createCliente(String nombre, String direccion, String email, String telefono, String password) {
         try {
+            String encryptedPassword = bcryptEncoder.encode(password);
+            Cliente cliente = new Cliente(null, nombre, direccion, email, telefono, encryptedPassword);
             clienteRepository.createCliente(cliente);
         } catch (Exception e) {
             throw new RuntimeException("Error al crear el Cliente", e);

@@ -7,7 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @CrossOrigin
@@ -18,17 +20,21 @@ public class ProductoController {
     private ProductoService productoService;
 
     @GetMapping
-    public ResponseEntity<List<Producto>> getAllProductos(
+    public ResponseEntity<Map<String, Object>> getAllProductos(
             @RequestParam(defaultValue = "10") int limit,
             @RequestParam(defaultValue = "0") int offset) {
         try {
             List<Producto> productos = productoService.getAllProductos(limit, offset);
-            return ResponseEntity.ok(productos);
+            long totalCount = productoService.getTotalCount(); // Obtén el total de productos
+            Map<String, Object> response = new HashMap<>();
+            response.put("products", productos);
+            response.put("totalCount", totalCount); // Total de productos para calcular páginas
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(null);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<Producto> getProductoById(@PathVariable Integer id) {

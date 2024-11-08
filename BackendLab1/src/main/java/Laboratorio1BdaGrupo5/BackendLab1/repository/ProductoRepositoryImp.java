@@ -104,7 +104,6 @@ public class ProductoRepositoryImp implements ProductoRepository {
         String queryText = "SELECT COUNT(*) FROM producto";
         try (Connection connection = sql2o.open()) {
             System.out.println("Conexión exitosa a la base de datos");
-            System.out.println("Total de productos: " + connection.createQuery(queryText).executeScalar(Long.class));
             return connection.createQuery(queryText)
                     .executeScalar(Long.class);
         } catch (Exception e) {

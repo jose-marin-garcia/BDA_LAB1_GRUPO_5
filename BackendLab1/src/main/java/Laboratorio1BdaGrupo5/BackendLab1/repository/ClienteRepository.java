@@ -12,4 +12,5 @@ public interface ClienteRepository {
 
     void deleteCliente(Integer idCliente);
 
+    Cliente findByEmail(String email);
 }
