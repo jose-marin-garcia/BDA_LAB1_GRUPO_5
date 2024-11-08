@@ -43,8 +43,7 @@ public class OrdenService {
 
     public void updateOrden(Orden orden) {
         try {
-            // Verificar que la orden existe antes de actualizar
-            getOrdenById(orden.getId_orden());
+            getOrdenById(orden.getIdOrden());
             ordenRepository.updateOrden(orden);
         } catch (Exception e) {
             throw new RuntimeException("Error al actualizar la orden", e);
@@ -53,7 +52,6 @@ public class OrdenService {
 
     public void deleteOrden(Integer idOrden) {
         try {
-            // Verificar que la orden existe antes de eliminar
             getOrdenById(idOrden);
             ordenRepository.deleteOrden(idOrden);
         } catch (Exception e) {

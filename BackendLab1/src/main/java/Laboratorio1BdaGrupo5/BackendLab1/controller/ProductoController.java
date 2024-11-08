@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@CrossOrigin
 @RequestMapping("/api/producto")
 public class ProductoController {
 
@@ -62,7 +61,7 @@ public class ProductoController {
     @PutMapping("/{id}")
     public ResponseEntity<String> updateProducto(@PathVariable Integer id, @RequestBody Producto producto) {
         try {
-            producto.setId_producto(id); // Asegurarse de que el ID sea consistente
+            producto.setIdProducto(id); // Asegurarse de que el ID sea consistente
             productoService.updateProducto(producto);
             return ResponseEntity.ok("Producto actualizado exitosamente");
         } catch (Exception e) {

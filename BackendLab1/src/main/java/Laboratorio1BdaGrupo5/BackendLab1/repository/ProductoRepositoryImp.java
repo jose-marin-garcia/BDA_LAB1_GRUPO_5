@@ -17,7 +17,7 @@ public class ProductoRepositoryImp implements ProductoRepository {
 
     @Override
     public List<Producto> getProductos(int limit, int offset) {
-        String queryText = "SELECT * FROM producto LIMIT :limit OFFSET :offset";
+        String queryText = "SELECT id_producto AS idProducto, nombre, descripcion, precio, stock, estado, id_categoria AS idCategoria FROM producto LIMIT :limit OFFSET :offset";
         try (Connection connection = sql2o.open()) {
             System.out.println("Conexión exitosa a la base de datos");
             return connection.createQuery(queryText)
@@ -32,7 +32,7 @@ public class ProductoRepositoryImp implements ProductoRepository {
 
     @Override
     public Producto getProductoById(Integer idProducto) {
-        String queryText = "SELECT * FROM producto WHERE id_producto = :idProducto";
+        String queryText = "SELECT id_producto AS idProducto, nombre, descripcion, precio, stock, estado, id_categoria AS idCategoria FROM producto WHERE id_producto = :idProducto";
         try (Connection connection = sql2o.open()) {
             System.out.println("Conexión exitosa a la base de datos");
             Producto producto = connection.createQuery(queryText)
@@ -77,7 +77,7 @@ public class ProductoRepositoryImp implements ProductoRepository {
                     .addParameter("precio", producto.getPrecio())
                     .addParameter("stock", producto.getStock())
                     .addParameter("estado", producto.getEstado())
-                    .addParameter("idProducto", producto.getId_producto())
+                    .addParameter("idProducto", producto.getIdProducto())
                     .executeUpdate();
         } catch (Exception e) {
             System.err.println("Error en la conexión a la base de datos: " + e.getMessage());

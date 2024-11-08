@@ -1,5 +1,6 @@
 package Laboratorio1BdaGrupo5.BackendLab1.models;
 
+import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,7 +9,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Cliente {
-    private Integer id_cliente;
+
+    @Column(name = "id_cliente")
+    private Integer idCliente;
+
     private String nombre;
     private String direccion;
     private String email;

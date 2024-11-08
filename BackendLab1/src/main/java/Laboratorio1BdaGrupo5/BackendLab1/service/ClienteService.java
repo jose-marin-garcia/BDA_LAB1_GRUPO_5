@@ -26,8 +26,8 @@ public class ClienteService {
 
     public void createCliente(String nombre, String direccion, String email, String telefono, String password) {
         try {
-            String encryptedPassword = bcryptEncoder.encode(password);
-            Cliente cliente = new Cliente(null, nombre, direccion, email, telefono, encryptedPassword);
+            //String encryptedPassword = bcryptEncoder.encode(password);
+            Cliente cliente = new Cliente(null, nombre, direccion, email, telefono, password);
             clienteRepository.createCliente(cliente);
         } catch (Exception e) {
             throw new RuntimeException("Error al crear el Cliente", e);
@@ -36,7 +36,7 @@ public class ClienteService {
 
     public void updateCliente(Cliente cliente) {
         try {
-            if (getClienteById(cliente.getId_cliente()) != null) {
+            if (getClienteById(cliente.getIdCliente()) != null) {
                 clienteRepository.updateCliente(cliente);
             } else {
                 throw new RuntimeException("El cliente no existe en la base de datos");
@@ -57,4 +57,18 @@ public class ClienteService {
             throw new RuntimeException("Error al actualizar el producto", e);
         }
     }
+
+    public Cliente getClienteByEmail(String email) {
+        try {
+            Cliente cliente = clienteRepository.getClienteByEmail(email);
+            if (cliente != null) {
+                return cliente;
+            } else {
+                throw new RuntimeException("Cliente no encontrado");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Error al obtener el Cliente", e);
+        }
+    }
+
 }

@@ -1,5 +1,6 @@
 package Laboratorio1BdaGrupo5.BackendLab1.models;
 
+import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,6 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Categoria {
-    private Integer id_categoria;
+
+    @Column(name = "id_categoria")
+    private Integer idCategoria;
     private String nombre;
 }

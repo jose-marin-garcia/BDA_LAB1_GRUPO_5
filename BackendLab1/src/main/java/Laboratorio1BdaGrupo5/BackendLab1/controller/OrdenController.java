@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin
 @RequestMapping("/api/orden")
 public class OrdenController {
     
@@ -56,7 +55,7 @@ public class OrdenController {
     @PutMapping("/{id}")
     public ResponseEntity<String> updateOrden(@PathVariable Integer id, @RequestBody Orden orden) {
         try {
-            orden.setId_orden(id); // Asegurarse de que el ID sea consistente
+            orden.setIdOrden(id);
             ordenService.updateOrden(orden);
             return ResponseEntity.ok("Orden actualizada exitosamente");
         } catch (Exception e) {

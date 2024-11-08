@@ -33,7 +33,7 @@ public class CategoriaService {
 
     public void updateCategoria(Categoria categoria) {
         try {
-            if (getCategoriaById(categoria.getId_categoria()) != null) {
+            if (getCategoriaById(categoria.getIdCategoria()) != null) {
                 categoriaRepository.updateCategoria(categoria);
             } else {
                 throw new RuntimeException("La categoria no existe en la base de datos");

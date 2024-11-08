@@ -47,8 +47,7 @@ public class ProductoService {
 
     public void updateProducto(Producto producto) {
         try {
-            // Verificar que el producto existe antes de actualizar
-            getProductoById(producto.getId_producto());
+            getProductoById(producto.getIdProducto());
             productoRepository.updateProducto(producto);
         } catch (Exception e) {
             throw new RuntimeException("Error al actualizar el producto", e);
@@ -57,7 +56,6 @@ public class ProductoService {
 
     public void deleteProducto(Integer idProducto) {
         try {
-            // Verificar que el producto existe antes de eliminar
             getProductoById(idProducto);
             productoRepository.deleteProducto(idProducto);
         } catch (Exception e) {

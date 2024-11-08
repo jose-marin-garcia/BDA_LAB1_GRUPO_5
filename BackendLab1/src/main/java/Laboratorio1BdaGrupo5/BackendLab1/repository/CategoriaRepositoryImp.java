@@ -32,7 +32,7 @@ public class CategoriaRepositoryImp implements CategoriaRepository{
                 "VALUES (:id_categoria, :nombre)";
         try (Connection connection = sql2o.open()) {
             connection.createQuery(queryText)
-                    .addParameter("id_categoria", categoria.getId_categoria())
+                    .addParameter("id_categoria", categoria.getIdCategoria())
                     .addParameter("nombre", categoria.getNombre())
                     .executeUpdate();
         } catch (Exception e) {
@@ -48,7 +48,7 @@ public class CategoriaRepositoryImp implements CategoriaRepository{
             System.out.println("Conexión exitosa a la base de datos");
             connection.createQuery(queryText)
                     .addParameter("nombre", categoria.getNombre())
-                    .addParameter("id_cliente", categoria.getId_categoria())
+                    .addParameter("id_cliente", categoria.getIdCategoria())
                     .executeUpdate();
         } catch (Exception e) {
             System.err.println("Error en la conexión a la base de datos: " + e.getMessage());

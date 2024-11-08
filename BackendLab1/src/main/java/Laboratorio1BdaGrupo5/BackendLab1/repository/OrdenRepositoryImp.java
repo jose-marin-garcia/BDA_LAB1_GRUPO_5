@@ -51,9 +51,9 @@ public class OrdenRepositoryImp implements OrdenRepository {
             System.out.println("Conexión exitosa a la base de datos");
             orden.setEstado(orden.getEstado().toLowerCase());
             connection.createQuery(queryText)
-                    .addParameter("fecha_orden", orden.getFecha_orden())
+                    .addParameter("fecha_orden", orden.getFechaOrden())
                     .addParameter("estado", orden.getEstado())
-                    .addParameter("id_cliente", orden.getId_cliente())
+                    .addParameter("id_cliente", orden.getIdCliente())
                     .addParameter("total", orden.getTotal())
                     .executeUpdate();
         } catch (Exception e) {
@@ -69,11 +69,11 @@ public class OrdenRepositoryImp implements OrdenRepository {
         try (Connection connection = sql2o.open()) {
             System.out.println("Conexión exitosa a la base de datos");
             connection.createQuery(queryText)
-                    .addParameter("fecha_orden", orden.getFecha_orden())
+                    .addParameter("fecha_orden", orden.getFechaOrden())
                     .addParameter("estado", orden.getEstado())
-                    .addParameter("id_cliente", orden.getId_cliente())
+                    .addParameter("id_cliente", orden.getIdCliente())
                     .addParameter("total", orden.getTotal())
-                    .addParameter("idOrden", orden.getId_orden())
+                    .addParameter("idOrden", orden.getIdOrden())
                     .executeUpdate();
         } catch (Exception e) {
             System.err.println("Error en la conexión a la base de datos: " + e.getMessage());
