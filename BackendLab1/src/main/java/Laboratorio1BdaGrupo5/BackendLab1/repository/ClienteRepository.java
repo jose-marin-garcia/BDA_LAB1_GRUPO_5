@@ -12,5 +12,10 @@ public interface ClienteRepository {
 
     void deleteCliente(Integer idCliente);
 
+<<<<<<< HEAD
     Cliente findByEmail(String email);
+=======
+
+
+>>>>>>> origin/main
 }

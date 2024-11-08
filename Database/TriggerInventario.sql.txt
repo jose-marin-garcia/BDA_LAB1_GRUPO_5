@@ -14,7 +14,13 @@ BEGIN
         RAISE EXCEPTION 'Stock insuficiente para el producto ID: %', NEW.id_producto;
     END IF;
 
+    --Cambio del estado
+    UPDATE producto
+    SET estado = 'agotado'
+    WHERE id_producto = NEW.id_producto AND stock = 0;
+
     RETURN NEW;
+
 END;
 $$ LANGUAGE plpgsql;
 
