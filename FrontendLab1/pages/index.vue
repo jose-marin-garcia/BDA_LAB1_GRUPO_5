@@ -22,7 +22,7 @@
       <p v-if="error" class="error">
         Has introducido mal el email o la contraseña.
       </p>
-      <v-btn class="form-submit" type="submit">Login</v-btn>
+      <v-btn  class="form-submit" type="submit">Login</v-btn>
     </v-form>
   </div>
 </template>
@@ -90,6 +90,7 @@ export default {
   margin-top: 3rem;
   padding: 1rem 0;
   cursor: pointer;
+  height: 100%;
 
   &:hover {
     background: gray;

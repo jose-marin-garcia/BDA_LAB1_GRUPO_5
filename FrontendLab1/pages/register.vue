@@ -6,22 +6,22 @@
       <label class="form-label" for="#nombre">Nombre:</label>
       <input v-model="nombre" class="form-input" type="nombre" id="nombre" required placeholder="Nombre" />
       
-      <label class="form-label" for="#direccion">Direccion:</label>
+      <label class="form-label" for="#direccion">Dirección:</label>
       <input v-model="direccion" class="form-input" type="direccion" id="nombre" required placeholder="Nombre" />
       
       <label class="form-label" for="#email">Email:</label>
       <input v-model="email" class="form-input" type="email" id="email" required placeholder="Email" />
 
-      <label class="form-label" for="#email">Telefono:</label>
+      <label class="form-label" for="#email">Teléfono:</label>
       <input v-model="email" class="form-input" type="tel" id="email" required placeholder="Email" />
       
       <label class="form-label" for="#password">Contraseña:</label>
       <input v-model="password" class="form-input" type="password" id="password" placeholder="Contraseña" />
       
-      <label class="form-label" for="#password-repeat">Repite la contraeña:</label>
+      <label class="form-label" for="#password-repeat">Repite la contraseña:</label>
       <input v-model="passwordRepeat" class="form-input" type="password" id="password-repeat" placeholder="Contraseña" />
       
-      <v-btn class="form-submit" type="submit" value="Sign Up" href="/"/>
+      <v-btn class="form-submit" type="submit" value="Sign Up" href="/">Registrarse</v-btn>
     </form>
   </div>
 </template>
@@ -100,7 +100,7 @@ export default {
   margin-top: 3rem;
   padding: 1rem 0;
   cursor: pointer;
-
+  height:"100%";
   &:hover {
     background: gray;
   }
