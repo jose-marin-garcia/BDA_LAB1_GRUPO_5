@@ -10,6 +10,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 @Data
 @AllArgsConstructor
@@ -34,4 +36,12 @@ public class User implements UserDetails {
     public static User clienteToUser(Cliente cliente) {
         return new User(cliente.getIdCliente(), cliente.getNombre(), cliente.getEmail(), cliente.getPassword());
     }
+
+    public Map<String, Object> generateExtraClaims() {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("id", id);
+        claims.put("name", name);
+        return claims;
+    }
+
 }

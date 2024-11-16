@@ -1,7 +1,6 @@
 <template>
-    <v-app-bar color="primary">
+    <v-app-bar color="primary" class="navbar">
         <!-- Enlaces de navegación -->
-        <v-spacer></v-spacer>
         <v-btn text class="mx-2" href="/productos">Productos</v-btn>
         <v-btn text class="mx-2" href="/pedidos">Mis Pedidos</v-btn>
         <v-btn text class="mx-2" href="/perfil">Mi Cuenta</v-btn>
@@ -31,5 +30,15 @@ const { cartCount } = useCart()
     position: absolute;
     top: 8px;
     right: 8px;
+}
+
+.navbar {
+    display: grid;
+    width: 100%;
+}
+
+.v-toolbar__content {
+    display: grid;
+    width: 100%;
 }
 </style>
