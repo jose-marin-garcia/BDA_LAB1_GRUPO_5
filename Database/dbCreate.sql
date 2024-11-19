@@ -12,9 +12,9 @@ CREATE DATABASE "lab1bda"
     LC_CTYPE = 'Spanish_Chile.1252'
     TABLESPACE = pg_default
     CONNECTION LIMIT = -1
-    IS_TEMPLATE = False;
+    TEMPLATE = template0;
 
-\c "lab1bda";  -- Cambia a la base de datos creada
+\c lab1bda
 
 -------------------------------------------------------
 -- Table "categoria"
@@ -87,5 +87,5 @@ CREATE TABLE IF NOT EXISTS "detalle_orden" (
         FOREIGN KEY ("id_producto")
         REFERENCES "producto" ("id_producto")
         ON DELETE CASCADE
-        ON UPDATE CASCADE
+        ON UPDATE CASCADE
 );
