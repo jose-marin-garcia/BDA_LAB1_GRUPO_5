@@ -4,6 +4,7 @@
         <v-btn text class="mx-2" href="/productos">Productos</v-btn>
         <v-btn text class="mx-2" href="/pedidos">Mis Pedidos</v-btn>
         <v-btn text class="mx-2" href="/perfil">Mi Cuenta</v-btn>
+        <v-btn text class="mx-2" href="/register">Registro</v-btn>
         <!-- Botón de carrito de compras -->
         <v-btn icon color="white" href="/cart">
             <v-icon>mdi-cart</v-icon>

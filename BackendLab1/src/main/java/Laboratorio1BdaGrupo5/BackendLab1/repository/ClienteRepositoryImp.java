@@ -28,11 +28,10 @@ public class ClienteRepositoryImp implements ClienteRepository {
 
     @Override
     public void createCliente(Cliente cliente) {
-        String queryText = "INSERT INTO cliente (id_cliente, nombre, direccion, email, telefono) " +
-                "VALUES (:id_cliente, :nombre, :direccion, :email, :telefono)";
+        String queryText = "INSERT INTO cliente ( nombre, direccion, email, telefono) " +
+                "VALUES (:nombre, :direccion, :email, :telefono)";
         try (Connection connection = sql2o.open()) {
             connection.createQuery(queryText)
-                    .addParameter("id_cliente", cliente.getIdCliente())
                     .addParameter("nombre", cliente.getNombre())
                     .addParameter("direccion", cliente.getDireccion())
                     .addParameter("email", cliente.getEmail())
