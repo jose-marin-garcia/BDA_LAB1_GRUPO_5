@@ -1,4 +1,4 @@
-package Laboratorio1BdaGrupo5.BackendLab1.config;
+package Laboratorio1BdaGrupo5.BackendLab1.authentication.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;

@@ -1,30 +1,44 @@
 <template>
   <div class="register">
     <h1 class="title">Sign Up</h1>
-    <form action class="form" @submit.prevent="register">
-      
-      <label class="form-label" for="#nombre">Nombre:</label>
-      <input v-model="nombre" class="form-input" type="nombre" id="nombre" required placeholder="Nombre" />
-      
-      <label class="form-label" for="#direccion">Dirección:</label>
-      <input v-model="direccion" class="form-input" type="direccion" id="nombre" required placeholder="Nombre" />
-      
-      <label class="form-label" for="#email">Email:</label>
-      <input v-model="email" class="form-input" type="email" id="email" required placeholder="Email" />
+    <v-form @submit.prevent="registrarUsuario" class="form">
+      <v-row dense>
+        <v-col cols="6">
+          <v-text-field v-model="nombre" label="Nombre" outlined required placeholder="Nombre"></v-text-field>
+        </v-col>
 
-      <label class="form-label" for="#email">Teléfono:</label>
-      <input v-model="email" class="form-input" type="tel" id="email" required placeholder="Email" />
-      
-      <label class="form-label" for="#password">Contraseña:</label>
-      <input v-model="password" class="form-input" type="password" id="password" placeholder="Contraseña" />
-      
-      <label class="form-label" for="#password-repeat">Repite la contraseña:</label>
-      <input v-model="passwordRepeat" class="form-input" type="password" id="password-repeat" placeholder="Contraseña" />
-      
-      <v-btn class="form-submit" type="submit" value="Sign Up" href="/">Registrarse</v-btn>
-    </form>
+        <v-col cols="6">
+          <v-text-field v-model="direccion" label="Dirección" outlined required placeholder="Dirección"></v-text-field>
+        </v-col>
+
+        <v-col cols="6">
+          <v-text-field v-model="email" label="Email" outlined required type="email" placeholder="Email"></v-text-field>
+        </v-col>
+
+        <v-col cols="6">
+          <v-text-field v-model="telefono" label="Teléfono" outlined required type="tel"
+            placeholder="Teléfono"></v-text-field>
+        </v-col>
+
+        <v-col cols="6">
+          <v-text-field v-model="password" label="Contraseña" outlined required type="password"
+            placeholder="Contraseña"></v-text-field>
+        </v-col>
+
+        <v-col cols="6">
+          <v-text-field v-model="passwordRepeat" label="Repite la contraseña" outlined required type="password"
+            placeholder="Contraseña"></v-text-field>
+        </v-col>
+      </v-row>
+
+      <v-btn class="form-submit" type="submit" color="primary" @click="registrarUsuario">
+        Registrarse
+      </v-btn>
+    </v-form>
   </div>
 </template>
+
+
 
 <script>
 export default {
@@ -32,17 +46,27 @@ export default {
     nombre: "",
     direccion: "",
     email: "",
+    telefono: "",
     password: "",
     passwordRepeat: "",
   }),
   methods: {
-    register() {
-      console.log(this.nombre);
-      console.log(this.email);
-      console.log(this.password);
-      console.log(this.passwordRepeat);
+    registrarUsuario(event) {
+      event.preventDefault();
+      axios.post('http://localhost:8080/api/cliente/register', {
+        nombre: this.nombre,
+        direccion: this.direccion,
+        email: this.email,
+        telefono: this.telefono,
+        password: this.password,
+      }).then(response => {
+        console.log(response);
+        this.$router.push('/login');
+      }).catch(error => {
+        console.log(error);
+      });
     },
-  },
+  }
 };
 </script>
 
@@ -60,7 +84,7 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 20%;
+  width: 50%;
   min-width: 350px;
   max-width: 100%;
   background: rgb(255, 255, 255);
@@ -95,12 +119,12 @@ export default {
 
 .form-submit {
   background: royalblue;
-  border: none;
+
   color: white;
-  margin-top: 3rem;
-  padding: 1rem 0;
+
+  padding: 2rem 1;
   cursor: pointer;
-  height:"100%";
+
   &:hover {
     background: gray;
   }

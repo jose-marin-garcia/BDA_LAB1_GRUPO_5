@@ -1,31 +1,38 @@
 <template>
   <div class="login">
     <h1 class="title">Login</h1>
-    <v-form action class="form" @submit.prevent="login">
-      <label class="form-label" for="#email">Email:</label>
-      <input
+    <v-form @submit.prevent="login" class="form">
+
+      <v-text-field
         v-model="email"
-        class="form-input"
-        type="email"
-        id="email"
+        label="Email"
+        outlined
         required
+        type="email"
         placeholder="Email"
-      />
-      <label class="form-label" for="#password">Password:</label>
-      <input
+      ></v-text-field>
+
+      <v-text-field
         v-model="password"
-        class="form-input"
+        label="Password"
+        outlined
+        required
         type="password"
-        id="password"
         placeholder="Password"
-      />
+      ></v-text-field>
+
       <p v-if="error" class="error">
         Has introducido mal el email o la contraseña.
       </p>
-      <v-btn  class="form-submit" type="submit">Login</v-btn>
+
+      <v-btn class="form-submit" type="submit" color="primary">
+        Login
+      </v-btn>
+      
     </v-form>
   </div>
 </template>
+
 
 <script>
 export default {
@@ -85,12 +92,10 @@ export default {
 }
 .form-submit {
   background: royalblue;
-  border: none;
   color: white;
-  margin-top: 3rem;
-  padding: 1rem 0;
+  padding: 2rem 1;
   cursor: pointer;
-  height: 100%;
+  
 
   &:hover {
     background: gray;
