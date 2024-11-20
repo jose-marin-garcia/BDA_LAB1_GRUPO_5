@@ -1,6 +1,6 @@
 <template>
   <div class="register">
-    <h1 class="title">Sign Up</h1>
+    <h1 class="title text-2xl">Sign Up</h1>
     <v-form @submit.prevent="registrarUsuario" class="form">
       <v-row dense>
         <v-col cols="6">
@@ -31,7 +31,7 @@
         </v-col>
       </v-row>
 
-      <v-btn class="form-submit" type="submit" color="primary" @click="registrarUsuario">
+      <v-btn class="form-submit" type="submit" color="primary">
         Registrarse
       </v-btn>
     </v-form>
@@ -41,6 +41,7 @@
 
 
 <script>
+import axios from 'axios';
 export default {
   data: () => ({
     nombre: "",
@@ -51,9 +52,8 @@ export default {
     passwordRepeat: "",
   }),
   methods: {
-    registrarUsuario(event) {
-      event.preventDefault();
-      axios.post('http://localhost:8080/api/cliente/register', {
+    registrarUsuario() {
+      axios.post('http://localhost:8090/api/cliente/register', {
         nombre: this.nombre,
         direccion: this.direccion,
         email: this.email,
