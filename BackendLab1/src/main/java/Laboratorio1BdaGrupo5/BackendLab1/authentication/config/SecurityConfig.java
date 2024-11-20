@@ -19,6 +19,7 @@ public class SecurityConfig {
 
     @Autowired
     private JwtAuthFilter jwtAuthFilter;
+
     @Autowired
     private AuthenticationProvider authenticationProvider;
 

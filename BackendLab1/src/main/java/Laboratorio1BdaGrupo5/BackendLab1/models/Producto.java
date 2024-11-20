@@ -29,7 +29,7 @@ public class Producto {
 
     private String estado;
 
-    @Column(name = "id_categoria")
+    @JoinColumn(name = "id_categoria", referencedColumnName = "id_categoria")
     private Integer idCategoria;
 
 }

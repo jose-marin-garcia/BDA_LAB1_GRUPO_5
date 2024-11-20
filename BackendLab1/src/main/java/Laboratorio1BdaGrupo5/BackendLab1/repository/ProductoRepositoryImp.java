@@ -44,6 +44,16 @@ public class ProductoRepositoryImp implements ProductoRepository {
             throw new RuntimeException("Error al obtener el producto por ID", e);
         }
     }
+    @Override
+    public List<Producto> getProductosPorCategoria(Integer idCategoria) {
+        String query = "SELECT * FROM producto WHERE id_categoria = :idCategoria";
+        try (Connection connection = sql2o.open()) {
+            return connection.createQuery(query)
+                    .addParameter("idCategoria", idCategoria) // Asegúrate de que coincida con el nombre del parámetro
+                    .executeAndFetch(Producto.class);
+        }
+    }
+
 
     @Override
     public void createProducto(Producto producto) {

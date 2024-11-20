@@ -9,6 +9,7 @@ public interface ProductoRepository {
 
     List<Producto> getProductos(int limit, int offset); // Para paginación
     Producto getProductoById(Integer idProducto);
+    public List<Producto> getProductosPorCategoria(Integer idCategoria);
     void createProducto(Producto producto);
     void updateProducto(Producto producto);
     void deleteProducto(Integer idProducto);

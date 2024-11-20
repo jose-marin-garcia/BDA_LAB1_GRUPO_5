@@ -1,108 +1,67 @@
 <template>
-  <div class="login">
-    <h1 class="title">Login</h1>
-    <v-form @submit.prevent="login" class="form">
+  <div class="container mx-auto px-4">
+    <h1 class="text-3xl font-bold mb-8">Productos</h1>
+    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div v-for="product in products" :key="product.id" class="border border-gray-300 rounded-lg shadow-md p-4">
+        <h2 class="text-xl font-semibold mb-2">{{ product.nombre }}</h2>
+        <p class="text-gray-600 mb-2">{{ product.descripcion }}</p>
+        <div class="flex justify-between items-center mb-4">
+          <span class="text-xl font-bold">${{ product.precio }}</span>
+          <span :class="['font-medium', getStockColorClass(product.stock)]">
+            Stock: {{ product.stock }}
+          </span>
+        </div>
+        <button @click="() => {
+          addToCart(product); console.log(cartItems.value);
+        }" class="w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 disabled:bg-gray-400"
+          :disabled="product.stock === 0">
+          {{ product.stock === 0 ? 'Agotado' : 'Agregar a carrito' }}
+        </button>
+      </div>
+    </div>
 
-      <v-text-field
-        v-model="email"
-        label="Email"
-        outlined
-        required
-        type="email"
-        placeholder="Email"
-      ></v-text-field>
+    <!-- Pagination Component -->
+    <v-pagination v-model="currentPage" :length="totalPages" color="primary" class="mt-6" />
 
-      <v-text-field
-        v-model="password"
-        label="Password"
-        outlined
-        required
-        type="password"
-        placeholder="Password"
-      ></v-text-field>
-
-      <p v-if="error" class="error">
-        Has introducido mal el email o la contraseña.
-      </p>
-
-      <v-btn class="form-submit" type="submit" color="primary">
-        Login
-      </v-btn>
-      
-    </v-form>
   </div>
 </template>
 
+<script setup>
+import { ref, onMounted, watch } from 'vue'
+import { useCart } from '@/composables/useCart.js'
+import axios from 'axios'
 
-<script>
-export default {
-  data: () => ({
-    email: "",
-    password: "",
-    error: false,
-  }),
-  methods: {
-    login() {
-      console.log(this.email);
-      console.log(this.password);
-    },
-  },
+const products = ref([])
+const currentPage = ref(1)
+const totalPages = ref(1)
+const API_URL = 'http://localhost:8090/api'
+const { addToCart } = useCart()
+
+const fetchProducts = async () => {
+  const limit = 8; // Número de productos por página
+  const offset = (currentPage.value - 1) * limit;
+  try {
+    const response = await axios.get(`${API_URL}/producto`, {
+      params: {
+        limit: limit,
+        offset: offset
+      }
+    });
+    products.value = response.data.products;
+    totalPages.value = Math.ceil(response.data.totalCount / limit);
+  } catch (error) {
+    console.error('Error fetching products:', error);
+  }
 };
+
+watch(currentPage, fetchProducts)
+
+onMounted(fetchProducts)
+
+const getStockColorClass = (stock) => {
+  if (stock === 0) return 'text-red-500'
+  if (stock <= 5) return 'text-orange-500'
+  return 'text-green-500'
+}
+
 </script>
-
-<style lang="scss" scoped>
-.login {
-  padding: 2rem;
-}
-.title {
-  text-align: center;
-}
-.form {
-  margin: 3rem auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 20%;
-  min-width: 350px;
-  max-width: 100%;
-  background: rgb(255, 255, 255);
-  border-radius: 5px;
-  padding: 40px;
-  box-shadow: 0 4px 10px 4px rgba(0, 0, 0, 0.3);
-}
-.form-label {
-  margin-top: 2rem;
-  color: rgb(0, 0, 0);
-  margin-bottom: 0.5rem;
-  &:first-of-type {
-    margin-top: 0rem;
-  }
-}
-.form-input {
-  padding: 10px 15px;
-  background: none;
-  background-image: none;
-  border: 1px solid white;
-  color: rgb(0, 0, 0);
-  box-shadow: 0 4px 10px 4px rgba(0, 0, 0, 0.3);
-  &:focus {
-    outline: 0;
-    border-color: #000000;
-  }
-}
-.form-submit {
-  background: royalblue;
-  color: white;
-  padding: 2rem 1;
-  cursor: pointer;
-  
-
-  &:hover {
-    background: gray;
-  }
-}
-.error {
-  margin: 1rem 0 0;
-  color: #ff4a96;
-}
-</style>

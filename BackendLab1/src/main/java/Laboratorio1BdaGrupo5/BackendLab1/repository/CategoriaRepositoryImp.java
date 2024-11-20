@@ -6,10 +6,29 @@ import org.springframework.stereotype.Repository;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 
+import java.util.List;
+
 @Repository
 public class CategoriaRepositoryImp implements CategoriaRepository{
     @Autowired
     private Sql2o sql2o;
+
+    @Override
+    public List<Categoria> getAllCategorias() {
+        String queryText = "SELECT * FROM categoria";
+        try (Connection connection = sql2o.open()) {
+            System.out.println("Conexión exitosa a la base de datos");
+            return connection.createQuery(queryText)
+                    .addColumnMapping("id_categoria", "idCategoria") // Mapea columna a atributo
+                    .addColumnMapping("nombre", "nombre") // Asegúrate de que coincida
+                    .executeAndFetch(Categoria.class);
+        } catch (Exception e) {
+            System.err.println("Error en la conexión a la base de datos: " + e.getMessage());
+            e.printStackTrace();
+            throw new RuntimeException("Error al obtener la lista de categorias", e);
+        }
+    }
+
 
     @Override
     public Categoria getCategoriaById(Integer id_categoria) {

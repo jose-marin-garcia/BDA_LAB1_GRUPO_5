@@ -1,11 +1,15 @@
 package Laboratorio1BdaGrupo5.BackendLab1.controller;
 
 import Laboratorio1BdaGrupo5.BackendLab1.models.Categoria;
+import Laboratorio1BdaGrupo5.BackendLab1.models.Producto;
 import Laboratorio1BdaGrupo5.BackendLab1.service.CategoriaService;
+import Laboratorio1BdaGrupo5.BackendLab1.service.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/categoria")
@@ -13,10 +17,23 @@ public class CategoriaController {
     @Autowired
     CategoriaService categoriaService;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Categoria> getCategoriaById(Integer idCategoria) {
+    @Autowired
+    ProductoService productoService;
+
+    @GetMapping
+    public ResponseEntity<?> getAllCategorias() {
         try {
-            Categoria categoria = categoriaService.getCategoriaById(idCategoria);
+            return ResponseEntity.ok(categoriaService.getAllCategorias());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(null);
+        }
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<List<Producto>> getProductosByCategoria(@PathVariable("id") Integer idCategoria) {
+        try {
+            List<Producto> categoria = productoService.getProductosPorCategoria(idCategoria);
             return ResponseEntity.ok(categoria);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)

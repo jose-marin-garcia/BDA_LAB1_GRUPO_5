@@ -5,10 +5,20 @@ import Laboratorio1BdaGrupo5.BackendLab1.repository.CategoriaRepositoryImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CategoriaService {
     @Autowired
     CategoriaRepositoryImp categoriaRepository;
+
+    public List<Categoria> getAllCategorias() {
+        try {
+            return categoriaRepository.getAllCategorias();
+        } catch (Exception e) {
+            throw new RuntimeException("Error al obtener la lista de categorias", e);
+        }
+    }
 
     public Categoria getCategoriaById(Integer idCategoria) {
         try {

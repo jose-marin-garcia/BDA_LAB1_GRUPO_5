@@ -17,7 +17,7 @@ import java.util.Map;
 @AllArgsConstructor
 @NoArgsConstructor
 public class User implements UserDetails {
-    private Integer id;
+    private Long id;
     private String name;
     private String email;
     private String password;
@@ -34,7 +34,7 @@ public class User implements UserDetails {
     }
 
     public static User clienteToUser(Cliente cliente) {
-        return new User(cliente.getIdCliente(), cliente.getNombre(), cliente.getEmail(), cliente.getPassword());
+        return new User(cliente.getIdCliente().longValue(), cliente.getNombre(), cliente.getEmail(), cliente.getPassword());
     }
 
     public Map<String, Object> generateExtraClaims() {

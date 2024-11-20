@@ -37,6 +37,14 @@ public class ProductoService {
         }
     }
 
+    public List<Producto> getProductosPorCategoria(Integer idCategoria) {
+        try {
+            return productoRepository.getProductosPorCategoria(idCategoria);
+        } catch (Exception e) {
+            throw new RuntimeException("Error al obtener la lista de productos por categoría", e);
+        }
+    }
+
     public void createProducto(Producto producto) {
         try {
             productoRepository.createProducto(producto);
