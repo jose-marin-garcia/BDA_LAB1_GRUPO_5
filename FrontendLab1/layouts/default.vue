@@ -1,10 +1,10 @@
 <template>
     <v-app>
-        <AppBar v-if="!hideComponents" />
+        <AppBar/>
         <v-main>
             <nuxt-page />
         </v-main>
-        <Footer v-if="!hideComponents" />
+        <Footer/>
     </v-app>
 </template>
 
@@ -14,7 +14,6 @@ import Footer from '@/components/Footer.vue'
 import { useRoute } from 'vue-router';
 
 const route = useRoute();
-const hideComponents = ['login', 'register'].includes(route.name);
 
 </script>
 

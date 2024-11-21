@@ -15,26 +15,28 @@ const cartTotal = computed(() =>
   cartItems.value.reduce((sum, item) => sum + item.precio * item.quantity, 0)
 )
 
+
 // Función para agregar productos al carrito
 const addToCart = (product) => {
   if (product.stock > 0) {
-    const existingProduct = cartItems.value.find(item => item.id_producto === product.id_producto)
+    const existingProduct = cartItems.value.find(item => item.idProducto === product.idProducto)
     if (existingProduct) {
-      if (existingProduct.quantity < product.stock) {
+      if (product.stock >= 0) {
         existingProduct.quantity += 1
-        product.stock -= 1
       }
+      
     } else {
       cartItems.value.push({ ...product, quantity: 1 })
-      product.stock -= 1
     }
   }
 }
 
 // Aumentar la cantidad de un producto en el carrito
 const increaseQuantity = (productId) => {
-  const product = cartItems.value.find(item => item.id_producto === productId)
-  if (product && product.quantity < product.stock) {
+  const product = cartItems.value.find(item => item.idProducto === productId)
+  console.log(product.stock)
+  console.log(product.quantity)
+  if (product && product.stock > 0) {
     product.quantity += 1
     product.stock -= 1
   }
@@ -42,8 +44,8 @@ const increaseQuantity = (productId) => {
 
 // Disminuir la cantidad de un producto en el carrito
 const decreaseQuantity = (productId) => {
-  const product = cartItems.value.find(item => item.id_producto === productId)
-  if (product && product.quantity > 1) {
+  const product = cartItems.value.find(item => item.idProducto === productId)
+  if (product && product.quantity > 0) {
     product.quantity -= 1
     product.stock += 1
   } else if (product) {
@@ -54,7 +56,7 @@ const decreaseQuantity = (productId) => {
 
 // Eliminar un producto del carrito
 const removeItem = (productId) => {
-  const productIndex = cartItems.value.findIndex(item => item.id_producto === productId)
+  const productIndex = cartItems.value.findIndex(item => item.idProducto === productId)
   if (productIndex !== -1) {
     cartItems.value[productIndex].stock += cartItems.value[productIndex].quantity // Devolver el stock
     cartItems.value.splice(productIndex, 1)

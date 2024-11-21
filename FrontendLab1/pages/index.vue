@@ -2,7 +2,7 @@
   <div class="container mx-auto px-4">
     <h1 class="text-3xl font-bold mb-8">Productos</h1>
     <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
-      <div v-for="product in products" :key="product.id" class="border border-gray-300 rounded-lg shadow-md p-4">
+      <div v-for="product in products" :key="product.idProducto" class="border border-gray-300 rounded-lg shadow-md p-4">
         <h2 class="text-xl font-semibold mb-2">{{ product.nombre }}</h2>
         <p class="text-gray-600 mb-2">{{ product.descripcion }}</p>
         <div class="flex justify-between items-center mb-4">
@@ -12,7 +12,7 @@
           </span>
         </div>
         <button @click="() => {
-          addToCart(product); console.log(cartItems.value);
+          product.stock--;addToCart(product); console.log(cartItems.value);
         }" class="w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 disabled:bg-gray-400"
           :disabled="product.stock === 0">
           {{ product.stock === 0 ? 'Agotado' : 'Agregar a carrito' }}

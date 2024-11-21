@@ -1,7 +1,7 @@
 <template>
     <v-app-bar color="primary" class="navbar">
         <!-- Enlaces de navegación -->
-        <v-btn icon color="white"><v-icon>mdi-store</v-icon></v-btn>
+        <v-btn icon color="white" href = "/"><v-icon>mdi-store</v-icon></v-btn>
         <v-btn @click="abrirDrawer = !abrirDrawer">Categorías</v-btn>
         <v-btn text class="mx-2" href="/pedidos">Mis Pedidos</v-btn>
         <v-btn text class="mx-2" href="/perfil">Mi Cuenta</v-btn>

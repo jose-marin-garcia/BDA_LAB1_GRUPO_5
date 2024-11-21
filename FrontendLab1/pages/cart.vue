@@ -2,15 +2,15 @@
   <div class="container mx-auto px-4">
     <h1 class="text-3xl font-bold mb-8">Carrito de compras</h1>
     <div v-if="cartItems.length > 0" class="bg-white rounded-lg shadow-md p-6">
-      <div v-for="item in cartItems" :key="item.id_producto" class="cart-item">
+      <div v-for="item in cartItems" :key="item.idProducto" class="cart-item">
         <p>{{ item.nombre }} - ${{ item.precio }}</p>
 
         <div class="quantity-controls">
-          <v-btn icon @click="decreaseQuantity(item.id_producto)">
+          <v-btn icon @click="decreaseQuantity(item.idProducto)">
             <v-icon>mdi-minus</v-icon>
           </v-btn>
           <span>{{ item.quantity }}</span>
-          <v-btn icon @click="increaseQuantity(item.id_producto)">
+          <v-btn icon @click="increaseQuantity(item.idProducto)">
             <v-icon>mdi-plus</v-icon>
           </v-btn>
         </div>
@@ -49,7 +49,7 @@ const checkout = async () => {
       fecha: new Date(),
       total: cartTotal.value,
       detalles: cartItems.value.map(item => ({
-        id_producto: item.id,
+        idProducto: item.id,
         cantidad: item.quantity,
         precio_unitario: item.price,
       }))
