@@ -34,7 +34,7 @@ public class User implements UserDetails {
     }
 
     public static User clienteToUser(Cliente cliente) {
-        return new User(cliente.getIdCliente().longValue(), cliente.getNombre(), cliente.getEmail(), cliente.getPassword());
+        return new User(cliente.getId_cliente().longValue(), cliente.getNombre(), cliente.getEmail(), cliente.getPassword());
     }
 
     public Map<String, Object> generateExtraClaims() {

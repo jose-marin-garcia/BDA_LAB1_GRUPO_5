@@ -5,6 +5,7 @@ import Laboratorio1BdaGrupo5.BackendLab1.repository.ClienteRepositoryImp;
 import ch.qos.logback.classic.encoder.JsonEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Service
 public class ClienteService {
@@ -26,17 +27,22 @@ public class ClienteService {
 
     public void createCliente(String nombre, String direccion, String email, String telefono, String password) {
         try {
-            //String encryptedPassword = bcryptEncoder.encode(password);
-            Cliente cliente = new Cliente(null, nombre, direccion, email, telefono, password);
+            String encryptedPassword = generateEncodedPassword(password);
+            Cliente cliente = new Cliente(null, nombre, direccion, email, telefono, encryptedPassword);
             clienteRepository.createCliente(cliente);
         } catch (Exception e) {
             throw new RuntimeException("Error al crear el Cliente", e);
         }
     }
 
+    private String generateEncodedPassword(String passsword){
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        return encoder.encode(passsword);
+    }
+
     public void updateCliente(Cliente cliente) {
         try {
-            if (getClienteById(cliente.getIdCliente()) != null) {
+            if (getClienteById(cliente.getId_cliente()) != null) {
                 clienteRepository.updateCliente(cliente);
             } else {
                 throw new RuntimeException("El cliente no existe en la base de datos");

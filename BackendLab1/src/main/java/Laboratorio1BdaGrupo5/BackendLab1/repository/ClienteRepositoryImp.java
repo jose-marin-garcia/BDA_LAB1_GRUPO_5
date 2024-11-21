@@ -28,14 +28,15 @@ public class ClienteRepositoryImp implements ClienteRepository {
 
     @Override
     public void createCliente(Cliente cliente) {
-        String queryText = "INSERT INTO cliente ( nombre, direccion, email, telefono) " +
-                "VALUES (:nombre, :direccion, :email, :telefono)";
+        String queryText = "INSERT INTO cliente ( nombre, direccion, email, telefono, password) " +
+                "VALUES (:nombre, :direccion, :email, :telefono, :password)";
         try (Connection connection = sql2o.open()) {
             connection.createQuery(queryText)
                     .addParameter("nombre", cliente.getNombre())
                     .addParameter("direccion", cliente.getDireccion())
                     .addParameter("email", cliente.getEmail())
                     .addParameter("telefono", cliente.getTelefono())
+                    .addParameter("password", cliente.getPassword())
                     .executeUpdate();
         } catch (Exception e) {
             System.err.println("Error en la conexión a la base de datos: " + e.getMessage());
@@ -54,7 +55,7 @@ public class ClienteRepositoryImp implements ClienteRepository {
                     .addParameter("descripcion", cliente.getDireccion())
                     .addParameter("precio", cliente.getEmail())
                     .addParameter("stock", cliente.getTelefono())
-                    .addParameter("id_cliente", cliente.getIdCliente())
+                    .addParameter("id_cliente", cliente.getId_cliente())
                     .executeUpdate();
         } catch (Exception e) {
             System.err.println("Error en la conexión a la base de datos: " + e.getMessage());

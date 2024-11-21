@@ -37,12 +37,12 @@ export default {
           email: this.email,
           password: this.password
         });
-
+        console.log("Respuesta del login", response.data);
         // Guardamos el JWT en localStorage o sessionStorage
         localStorage.setItem('jwtToken', response.data.jwtToken);
-
+        
         // Redirigir al usuario a la página principal o dashboard
-        this.$router.push('/dashboard');
+        this.$router.push('/');
       } catch (error) {
         console.error("Error en el login", error);
         // Manejar error (mostrar mensaje al usuario)

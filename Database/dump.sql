@@ -26,17 +26,17 @@ INSERT INTO producto (nombre, descripcion, precio, stock, estado, id_categoria) 
 ('Juguete Educativo', 'Juguete que ayuda al desarrollo', 30.00, 80, 'disponible', 5);
 
 -- Insertar clientes
-INSERT INTO cliente (nombre, direccion, email, telefono) VALUES 
-('Juan Perez', 'Calle Falsa 123', 'juan.perez@example.com', '123456789'),
-('María Gemez', 'Avenida Siempre Viva 742', 'maria.gomez@example.com', '987654321'),
-('Luis Rodriguez', 'Calle Mayor 5', 'luis.rodriguez@example.com', '654321789'),
-('Ana Martinez', 'Paseo de la Reforma 12', 'ana.martinez@example.com', '456789123'),
-('Carlos Lopez', 'Calle 9 de Julio 3', 'carlos.lopez@example.com', '321654987'),
-('Patricia Torres', 'Boulevard de la Luz 1', 'patricia.torres@example.com', '789123456'),
-('Fernando Jimenez', 'Calle del Sol 45', 'fernando.jimenez@example.com', '159753486'),
-('Laura Fernandez', 'Calle de la Luna 28', 'laura.fernandez@example.com', '789654123'),
-('Javier Sanchez', 'Calle de la Paz 19', 'javier.sanchez@example.com', '852147963'),
-('Sandra Moreno', 'Calle de la Libertad 7', 'sandra.moreno@example.com', '951753486');
+INSERT INTO cliente (nombre, direccion, email, telefono, password) VALUES 
+('Juan Perez', 'Calle Falsa 123', 'juan.perez@example.com', '123456789', '$2a$10$rnkQhE53UVWbrBukJj3qs.OglvQA8rJ.qaoFzaf2Ru6.0WQEm9Hpi'),
+('María Gemez', 'Avenida Siempre Viva 742', 'maria.gomez@example.com', '987654321', '$2a$10$rnkQhE53UVWbrBukJj3qs.OglvQA8rJ.qaoFzaf2Ru6.0WQEm9Hpi'),
+('Luis Rodriguez', 'Calle Mayor 5', 'luis.rodriguez@example.com', '654321789', '$2a$10$rnkQhE53UVWbrBukJj3qs.OglvQA8rJ.qaoFzaf2Ru6.0WQEm9Hpi'),
+('Ana Martinez', 'Paseo de la Reforma 12', 'ana.martinez@example.com', '456789123', '$2a$10$rnkQhE53UVWbrBukJj3qs.OglvQA8rJ.qaoFzaf2Ru6.0WQEm9Hpi'),
+('Carlos Lopez', 'Calle 9 de Julio 3', 'carlos.lopez@example.com', '321654987', '$2a$10$rnkQhE53UVWbrBukJj3qs.OglvQA8rJ.qaoFzaf2Ru6.0WQEm9Hpi'),
+('Patricia Torres', 'Boulevard de la Luz 1', 'patricia.torres@example.com', '789123456', '$2a$10$rnkQhE53UVWbrBukJj3qs.OglvQA8rJ.qaoFzaf2Ru6.0WQEm9Hpi'),
+('Fernando Jimenez', 'Calle del Sol 45', 'fernando.jimenez@example.com', '159753486', '$2a$10$rnkQhE53UVWbrBukJj3qs.OglvQA8rJ.qaoFzaf2Ru6.0WQEm9Hpi'),
+('Laura Fernandez', 'Calle de la Luna 28', 'laura.fernandez@example.com', '789654123', '$2a$10$rnkQhE53UVWbrBukJj3qs.OglvQA8rJ.qaoFzaf2Ru6.0WQEm9Hpi'),
+('Javier Sanchez', 'Calle de la Paz 19', 'javier.sanchez@example.com', '852147963', '$2a$10$rnkQhE53UVWbrBukJj3qs.OglvQA8rJ.qaoFzaf2Ru6.0WQEm9Hpi'),
+('Sandra Moreno', 'Calle de la Libertad 7', 'sandra.moreno@example.com', '951753486','$2a$10$rnkQhE53UVWbrBukJj3qs.OglvQA8rJ.qaoFzaf2Ru6.0WQEm9Hpi');
 
 -- Insertar ordenes
 INSERT INTO orden (estado, id_cliente, total) VALUES 

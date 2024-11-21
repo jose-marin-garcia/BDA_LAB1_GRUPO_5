@@ -10,8 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Cliente {
 
-    @Column(name = "id_cliente")
-    private Integer idCliente;
+    private Integer id_cliente;
 
     private String nombre;
     private String direccion;

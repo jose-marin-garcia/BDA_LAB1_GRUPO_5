@@ -50,7 +50,8 @@ CREATE TABLE IF NOT EXISTS "cliente" (
     "nombre" VARCHAR(255) NOT NULL,
     "direccion" VARCHAR(255),
     "email" VARCHAR(100) UNIQUE,
-    "telefono" VARCHAR(20)
+    "telefono" VARCHAR(20),
+    "password" VARCHAR(255)
 );
 
 -------------------------------------------------------
