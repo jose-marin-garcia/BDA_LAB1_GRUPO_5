@@ -29,13 +29,13 @@ public class OrdenController {
         }
     }
 
-    @GetMapping
+    @GetMapping("/{id}/{limit}/{offset}")
     public  ResponseEntity<List<Orden>> getAllOrdensById(
             @RequestParam(defaultValue = "10") int limit,
             @RequestParam(defaultValue = "0") int offset,
-            @RequestParam int idCliente){
+            @RequestParam int id){
         try {
-            List<Orden> ordenes = ordenService.getAllOrdenesById(limit, offset, idCliente);
+            List<Orden> ordenes = ordenService.getAllOrdenesById(limit, offset, id);
             return ResponseEntity.ok(ordenes);
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
