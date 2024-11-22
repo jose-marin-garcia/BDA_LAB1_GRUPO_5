@@ -29,6 +29,22 @@ public class OrdenRepositoryImp implements OrdenRepository {
     }
 
     @Override
+    public  List<Orden> getOrdenesById(int limit, int offset, int idCliente){
+        String queryText = "SELECT * FROM orden LIMIT :limit OFFSET :offset WHERE id_Cliente = idCliente";
+        try (Connection connection = sql2o.open()){
+            System.out.println("Conexion exitosa a la base de datos");
+            return connection.createQuery(queryText)
+                    .addParameter("limit", limit)
+                    .addParameter("offset", offset)
+                    .addParameter("id_cliente", idCliente)
+                    .executeAndFetch(Orden.class);
+        }catch (Exception e){
+            System.err.println("Error en la conexión a la base de datos: " + e.getMessage());
+            throw new RuntimeException("Error al obtener ordenes", e);
+        }
+    }
+
+    @Override
     public Orden getOrdenById(Integer idOrden) {
         String queryText = "SELECT * FROM orden WHERE id_orden = :idOrden";
         try (Connection connection = sql2o.open()) {

@@ -19,6 +19,14 @@ public class OrdenService {
             throw new RuntimeException("Error al obtener la lista de ordenes", e);
         }       
     }
+
+    public List<Orden> getAllOrdenesById(int limit, int offset, int idCliente){
+        try{
+            return ordenRepository.getOrdenesById(limit,offset,idCliente);
+        }catch (Exception e){
+            throw new RuntimeException("Error al obtener la lista de ordenes", e);
+        }
+    }
     
     public Orden getOrdenById(Integer idOrden) {
         try {
