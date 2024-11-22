@@ -16,9 +16,13 @@ public class ProductoService {
     private ProductoRepositoryImp productoRepository;
 
 
-    public List<Producto> getAllProductos(int limit, int offset) {
+    public List<Producto> getAllProductos(int limit, int offset, String search) {
         try {
-            return productoRepository.getProductos(limit, offset);
+            if (search.isEmpty()) {
+                return productoRepository.getProductos(limit, offset);
+            } else {
+                return productoRepository.getProductosSearch(limit, offset, search);
+            }
         } catch (Exception e) {
             throw new RuntimeException("Error al obtener la lista de productos", e);
         }

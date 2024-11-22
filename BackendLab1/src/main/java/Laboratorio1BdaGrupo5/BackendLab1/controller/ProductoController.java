@@ -21,10 +21,14 @@ public class ProductoController {
     @GetMapping
     public ResponseEntity<Map<String, Object>> getAllProductos(
             @RequestParam(defaultValue = "10") int limit,
-            @RequestParam(defaultValue = "0") int offset) {
+            @RequestParam(defaultValue = "0") int offset,
+            @RequestParam(defaultValue = "") String search) {
         try {
-            List<Producto> productos = productoService.getAllProductos(limit, offset);
+            List<Producto> productos = productoService.getAllProductos(limit, offset, search);
             long totalCount = productoService.getTotalCount(); // Obtén el total de productos
+            if (!search.isEmpty()) {
+                totalCount = productos.size();
+            }
             Map<String, Object> response = new HashMap<>();
             response.put("products", productos);
             response.put("totalCount", totalCount); // Total de productos para calcular páginas

@@ -1,6 +1,16 @@
 <template>
   <div class="container mx-auto px-4">
-    <h1 class="text-3xl font-bold mb-8">Productos</h1>
+    <h1 class="text-3xl font-bold mb-8 mt-4">Productos</h1>
+    <input 
+      v-model="searchQuery"
+      type="text" 
+      placeholder="Buscar productos..." 
+      class="p-2 border border-gray-300 rounded mb-6 mr-4"
+      style="width: 800px"
+    />
+    <v-btn icon @click="searchProducts" color="primary">
+      <v-icon>mdi-magnify</v-icon>
+    </v-btn>
     <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
       <div v-for="product in products" :key="product.idProducto" class="border border-gray-300 rounded-lg shadow-md p-4">
         <h2 class="text-xl font-semibold mb-2">{{ product.nombre }}</h2>
@@ -35,6 +45,7 @@ const products = ref([])
 const currentPage = ref(1)
 const totalPages = ref(1)
 const API_URL = 'http://localhost:8090/api'
+const searchQuery = ref('')
 const { addToCart } = useCart()
 
 const fetchProducts = async () => {
@@ -44,17 +55,25 @@ const fetchProducts = async () => {
     const response = await axios.get(`${API_URL}/producto`, {
       params: {
         limit: limit,
-        offset: offset
+        offset: offset,
+        search: searchQuery.value
       }
     });
     products.value = response.data.products;
     totalPages.value = Math.ceil(response.data.totalCount / limit);
+    console.log(response.data);
   } catch (error) {
     console.error('Error fetching products:', error);
   }
 };
 
 watch(currentPage, fetchProducts)
+
+const searchProducts = () => {
+  console.log("Test");
+  currentPage.value = 1;
+  fetchProducts();
+}
 
 onMounted(fetchProducts)
 

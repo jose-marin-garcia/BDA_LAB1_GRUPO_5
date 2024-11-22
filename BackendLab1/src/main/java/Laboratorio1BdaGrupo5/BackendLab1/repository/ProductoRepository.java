@@ -8,6 +8,7 @@ import java.util.Optional;
 public interface ProductoRepository {
 
     List<Producto> getProductos(int limit, int offset); // Para paginación
+    List<Producto> getProductosSearch(int limit, int offset, String search);
     Producto getProductoById(Integer idProducto);
     public List<Producto> getProductosPorCategoria(Integer idCategoria);
     void createProducto(Producto producto);

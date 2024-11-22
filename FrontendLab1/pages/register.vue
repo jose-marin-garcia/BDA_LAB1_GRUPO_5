@@ -8,7 +8,7 @@
         </v-col>
 
         <v-col cols="6">
-          <v-text-field v-model="direccion" label="Dirección" outlined required placeholder="Dirección"></v-text-field>
+          <v-text-field id="address-input" v-model="direccion" label="Dirección" outlined required placeholder="Dirección"></v-text-field>
         </v-col>
 
         <v-col cols="6">
@@ -43,6 +43,9 @@
 <script>
 import axios from 'axios';
 export default {
+  mounted() {
+    this.initializeAutocomplete();
+  },
   data: () => ({
     nombre: "",
     direccion: "",
@@ -53,6 +56,10 @@ export default {
   }),
   methods: {
     registrarUsuario() {
+      if (this.password !== this.passwordRepeat) {
+        alert('Las contraseñas no coinciden');
+        return;
+      }
       axios.post('http://localhost:8090/api/cliente/register', {
         nombre: this.nombre,
         direccion: this.direccion,
@@ -64,6 +71,27 @@ export default {
         this.$router.push('/login');
       }).catch(error => {
         console.log(error);
+      });
+    },
+    initializeAutocomplete() {
+      const input = document.getElementById("address-input");
+      const autocomplete = new google.maps.places.Autocomplete(input,
+      { 
+        types: ["geocode"],
+        componentRestrictions: { country: "cl" },
+        fields: ["address_components", "formatted_address", "geometry"],
+      });
+
+      autocomplete.addListener("place_changed", () => {
+        const place = autocomplete.getPlace();
+
+        if (!place.geometry) {
+          console.error("Place not found");
+        }
+        console.log("Selected Address:", place.formatted_address);
+        console.log("Latitude:", place.geometry.location.lat());
+        console.log("Longitude:", place.geometry.location.lng());
+        this.direccion = place.formatted_address;
       });
     },
   }

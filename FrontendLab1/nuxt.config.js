@@ -37,6 +37,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    { src: "~/plugins/google-maps.js", mode: "client" },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -58,6 +59,23 @@ export default {
   vite: {
     define: {
       'process.env.DEBUG': false
+    }
+  },
+
+  // Content Security Policy
+  render: {
+    csp: {
+      reportOnly: false, // Set to true to test without enforcing
+      policies: {
+        'script-src': [
+          "'self'",
+          "https://maps.googleapis.com"
+        ],
+        'style-src': [
+          "'self'",
+          "'unsafe-inline'"
+        ]
+      }
     }
   },
 
