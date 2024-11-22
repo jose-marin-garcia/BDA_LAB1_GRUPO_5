@@ -31,9 +31,9 @@ public class OrdenController {
 
     @GetMapping("/{id}/{limit}/{offset}")
     public  ResponseEntity<List<Orden>> getAllOrdensById(
-            @RequestParam(defaultValue = "10") int limit,
-            @RequestParam(defaultValue = "0") int offset,
-            @RequestParam int id){
+            @PathVariable int id,
+            @PathVariable int limit,
+            @PathVariable int offset){
         try {
             List<Orden> ordenes = ordenService.getAllOrdenesById(limit, offset, id);
             return ResponseEntity.ok(ordenes);
