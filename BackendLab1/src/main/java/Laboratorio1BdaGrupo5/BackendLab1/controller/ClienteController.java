@@ -14,9 +14,9 @@ public class ClienteController {
     ClienteService clienteService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<Cliente> getClienteById(Integer idCliente) {
+    public ResponseEntity<Cliente> getClienteById(@PathVariable Integer id) {
         try {
-            Cliente cliente = clienteService.getClienteById(idCliente);
+            Cliente cliente = clienteService.getClienteById(id);
             return ResponseEntity.ok(cliente);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
