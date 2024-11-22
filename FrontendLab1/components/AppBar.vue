@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar color="primary" class="navbar">
+  <v-app-bar color="primary" class="navbar d-flex align-center">
     <!-- Icono de la tienda -->
     <v-btn icon color="white" href="/">
       <v-icon>mdi-store</v-icon>
@@ -8,34 +8,37 @@
     <!-- Botón para categorías -->
     <v-btn @click="abrirDrawer = !abrirDrawer">Categorías</v-btn>
 
-    <!-- Botones visibles según autenticación -->
-    <template v-if="isAuthenticated">
-      <v-btn text class="mx-2" href="/pedidos">Mis Pedidos</v-btn>
-      <v-btn text class="mx-2" href="/perfil">Mi Cuenta</v-btn>
-      <v-btn text @click="logout" class="mx-2">Cerrar Sesión</v-btn>
-    </template>
-    <template v-else>
-      <v-btn text class="mx-2" href="/login">Iniciar Sesión</v-btn>
-      <v-btn text class="mx-2" href="/register">Registro</v-btn>
-    </template>
+    <!-- Contenedor para empujar los botones a la derecha -->
+    <div class="ml-auto d-flex align-center">
+      <!-- Botones visibles según autenticación -->
+      <template v-if="isAuthenticated">
+        <v-btn text class="mx-2" href="/pedidos">Mis Pedidos</v-btn>
+        <v-btn icon color="white" href="/perfil"><v-icon>mdi-account-check</v-icon></v-btn>
+        <v-btn icon color="white" href="/cart">
+          <v-icon>mdi-cart-outline</v-icon>
+          <span v-if="cartCount > 0" class="badge">{{ cartCount }}</span>
+        </v-btn>
+        <v-btn icon color="white" @click="logout" class="mx-4"><v-icon>mdi-logout</v-icon></v-btn>
+      </template>
+      <template v-else>
+        <v-btn text class="mx-2" href="/login">Iniciar Sesión</v-btn>
+        <v-btn text class="mx-2" href="/register">Registro</v-btn>
+        <v-btn icon color="white" href="/cart">
+          <v-icon>mdi-cart-outline</v-icon>
+          <span v-if="cartCount > 0" class="badge">{{ cartCount }}</span>
+        </v-btn>
+      </template>
 
-    <!-- Botón del carrito de compras -->
-    <v-btn icon color="white" href="/cart">
-      <v-icon>mdi-cart-outline</v-icon>
-      <span v-if="cartCount > 0" class="badge">{{ cartCount }}</span>
-    </v-btn>
+      <!-- Botón del carrito de compras -->
 
-    <v-spacer></v-spacer>
+    </div>
   </v-app-bar>
 
   <!-- Drawer para las categorías -->
   <v-navigation-drawer v-model="abrirDrawer" app temporary>
     <v-list>
-      <v-list-item
-        v-for="categoria in categorias"
-        :key="categoria.idCategoria"
-        @click="filtrarPorCategoria(categoria.idCategoria)"
-      >
+      <v-list-item v-for="categoria in categorias" :key="categoria.idCategoria"
+        @click="filtrarPorCategoria(categoria.idCategoria)">
         <v-list-item-title>{{ categoria.nombre }}</v-list-item-title>
       </v-list-item>
     </v-list>
@@ -82,7 +85,9 @@ export default {
     },
 
     logout() {
-      // Simula el cierre de sesión
+      if (!confirm("¿Estás seguro de que deseas cerrar sesión?")) {
+        return;
+      }
       localStorage.setItem("isAuthenticated", false);
       localStorage.removeItem("userId");
       this.actualizarEstadoAutenticacion();
