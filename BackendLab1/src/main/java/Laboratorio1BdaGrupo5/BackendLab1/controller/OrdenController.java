@@ -1,6 +1,8 @@
 package Laboratorio1BdaGrupo5.BackendLab1.controller;
 
+import Laboratorio1BdaGrupo5.BackendLab1.models.DetalleOrden;
 import Laboratorio1BdaGrupo5.BackendLab1.models.Orden;
+import Laboratorio1BdaGrupo5.BackendLab1.models.OrdenPagoRequest;
 import Laboratorio1BdaGrupo5.BackendLab1.service.OrdenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -88,4 +90,16 @@ public class OrdenController {
                     .body("Error al eliminar la orden");
         }
     }
+
+    @PostMapping("/pagar")
+    public ResponseEntity<String> pagar(@RequestBody OrdenPagoRequest request) {
+        try {
+            ordenService.pagar(request.getDetalles(), request.getOrden());
+            return ResponseEntity.ok("Orden pagada");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Error al pagar la orden: " + e.getMessage());
+        }
+    }
+
 }

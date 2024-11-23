@@ -17,8 +17,9 @@ public class DetalleOrdenRepositoryImp implements DetalleOrdenRepository {
 
     @Override
     public void createDetalleOrden(DetalleOrden detalleOrden) {
+        System.out.println(detalleOrden.getPrecioUnitario());
         String queryText = "INSERT INTO detalle_orden (id_orden, id_producto, cantidad, precio_unitario) " +
-                "VALUES (:idOrden, :idProducto, :cantidad, :precioUnitario)";
+                            "VALUES (:idOrden, :idProducto, :cantidad, :precioUnitario)";
         try (Connection connection = sql2o.open()) {
             connection.createQuery(queryText)
                     .addParameter("idOrden", detalleOrden.getIdOrden())

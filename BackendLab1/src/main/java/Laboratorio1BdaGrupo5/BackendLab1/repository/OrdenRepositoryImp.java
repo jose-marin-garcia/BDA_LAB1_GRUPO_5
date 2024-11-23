@@ -64,7 +64,7 @@ public class OrdenRepositoryImp implements OrdenRepository {
     }
 
     @Override
-    public void createOrden(Orden orden) {
+    public Orden createOrden(Orden orden){
         String queryText = "INSERT INTO orden (fecha_orden, estado, id_cliente, total) " +
                 "VALUES (:fecha_orden, :estado, :id_cliente, :total)";
         try (Connection connection = sql2o.open()) {
@@ -76,10 +76,20 @@ public class OrdenRepositoryImp implements OrdenRepository {
                     .addParameter("id_cliente", orden.getIdCliente())
                     .addParameter("total", orden.getTotal())
                     .executeUpdate();
+
+            // Recuperar el id generado para la nueva orden
+            String queryGetId = "SELECT currval('orden_id_orden_seq')";  // Ajusta el nombre de la secuencia a tu base de datos
+            Integer idGenerado = connection.createQuery(queryGetId)
+                    .executeScalar(Integer.class);
+
+            // Asignar el id generado a la orden
+            orden.setIdOrden(idGenerado);
+
         } catch (Exception e) {
             System.err.println("Error en la conexión a la base de datos: " + e.getMessage());
             throw new RuntimeException("Error al crear la orden", e);
         }
+        return orden;
     }
 
     @Override
