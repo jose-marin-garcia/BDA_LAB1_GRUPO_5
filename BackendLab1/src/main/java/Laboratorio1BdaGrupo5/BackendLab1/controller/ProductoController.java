@@ -98,7 +98,12 @@ public class ProductoController {
     @GetMapping("/getVariablePriceProduct")
     public ResponseEntity<Producto> getMostVariablePriceProduct() {
         try {
-            return ResponseEntity.ok(productoService.getMostVariablePriceProduct());
+            Producto product = productoService.getMostVariablePriceProduct();
+            if (product == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(null);
+            }
+            return ResponseEntity.ok(product);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(null);

@@ -151,30 +151,38 @@ public class ProductoRepositoryImp implements ProductoRepository {
         }
     }
 
-    @Override
     public Producto getMostVariablePriceProduct() {
         String queryText = "WITH last_orders AS (" +
                 "    SELECT id_orden " +
                 "    FROM orden " +
                 "    ORDER BY fecha_orden DESC " +
                 "    LIMIT 100" +
-                ")" +
-                "SELECT " +
-                "    p.id_producto AS productId, " +
-                "    COUNT(d.id_producto) AS productCount, " +
-                "    AVG(d.precio_unitario) AS averagePrice, " +
-                "    STDDEV(d.precio_unitario) AS priceVariability " +
+                "), " +
+                "price_variability AS (" +
+                "    SELECT " +
+                "        d.id_producto, " +
+                "        STDDEV(d.precio_unitario) AS price_variability " +
+                "    FROM detalle_orden d " +
+                "    JOIN last_orders l ON d.id_orden = l.id_orden " +
+                "    GROUP BY d.id_producto " +
+                "    HAVING STDDEV(d.precio_unitario) IS NOT NULL " +
+                ") " +
+                "SELECT p.id_producto AS idProducto, p.nombre, p.descripcion, " +
+                "p.precio, p.stock, p.estado, p.id_categoria AS idCategoria " +
                 "FROM producto p " +
-                "JOIN detalle_orden d ON p.id_producto = d.id_producto " +
-                "JOIN last_orders l ON d.id_orden = l.id_orden " +
-                "GROUP BY p.id_producto " +
-                "HAVING STDDEV(d.precio_unitario) IS NOT NULL " +
-                "ORDER BY priceVariability DESC";
+                "JOIN price_variability v ON p.id_producto = v.id_producto " +
+                "ORDER BY v.price_variability DESC " +
+                "LIMIT 1;";
         try (Connection connection = sql2o.open()) {
-            return connection.createQuery(queryText)
+            Producto product = connection.createQuery(queryText)
                     .executeAndFetchFirst(Producto.class);
+            if (product == null) {
+                throw new RuntimeException("No product with price variability found.");
+            }
+            return product;
         } catch (Exception e) {
-            throw new RuntimeException("Error al obtener producto con precio más variable", e);
+            throw new RuntimeException("Error fetching product with most variable price", e);
         }
     }
+
 }

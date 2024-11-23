@@ -93,6 +93,8 @@ public class ProductoService {
 
     public Producto getMostVariablePriceProduct() {
         try {
+            Producto p = productoRepository.getMostVariablePriceProduct();
+            System.out.println("Test: " + p.getIdProducto());
             return productoRepository.getMostVariablePriceProduct();
         } catch (Exception e) {
             throw new RuntimeException("Error al obtener el producto con precio más variable", e);
