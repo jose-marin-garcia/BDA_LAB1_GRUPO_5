@@ -185,4 +185,15 @@ public class ProductoRepositoryImp implements ProductoRepository {
         }
     }
 
+    @Override
+    public Producto getFirstProducto() {
+        String queryText = "SELECT id_producto AS idProducto, nombre, descripcion, precio, stock, estado, id_categoria AS idCategoria FROM producto";
+        try (Connection connection = sql2o.open()) {
+            Producto producto = connection.createQuery(queryText)
+                    .executeAndFetchFirst(Producto.class);
+            return producto;
+        } catch (Exception e) {
+            throw new RuntimeException("Error al obtener el producto por ID", e);
+        }
+    }
 }

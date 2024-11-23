@@ -17,4 +17,5 @@ public interface ProductoRepository {
     long getTotalCount();
     String getProductoName(Integer idProducto);
     Producto getMostVariablePriceProduct();
+    Producto getFirstProducto();
 }
