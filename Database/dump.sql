@@ -44,7 +44,9 @@ INSERT INTO orden (estado, id_cliente, total) VALUES
 ('pagada', 2, 0.00),
 ('enviada', 3, 0.00),
 ('pendiente', 4, 0.00),
-('pagada', 5, 0.00);
+('pagada', 5, 0.00),
+('pendiente', 1, 914.98),
+('pendiente', 1, 4405.46);
 
 -- Insertar detalles de orden
 INSERT INTO detalle_orden (id_orden, id_producto, cantidad, precio_unitario) VALUES
@@ -62,4 +64,23 @@ INSERT INTO detalle_orden (id_orden, id_producto, cantidad, precio_unitario) VAL
 (2, 12, 1, 400.00),
 (3, 13, 1, 200.00),
 (4, 14, 1, 120.00),
-(5, 15, 1, 220.00);
+(5, 15, 1, 220.00),
+(6, 2, 0, 1399.99),
+(6, 6, 1, 299.99),
+(6, 9, 1, 15.00),
+(6, 1, 1, 599.99),
+(7, 12, 1, 400.00),
+(7, 1, 1, 599.99),
+(7, 2, 1, 1399.99),
+(7, 3, 1, 25.50),
+(7, 6, 1, 299.99),
+(7, 9, 1, 15.00),
+(7, 10, 1, 80.00),
+(7, 8, 1, 22.00),
+(7, 7, 1, 360.00),
+(7, 5, 1, 600.00),
+(7, 4, 1, 42.99),
+(7, 11, 1, 200.00),
+(7, 13, 1, 210.00),
+(7, 14, 1, 125.00),
+(7, 16, 1, 25.00);
