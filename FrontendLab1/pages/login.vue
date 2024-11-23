@@ -32,6 +32,10 @@ data() {
 },
 methods: {
   async handleLogin() {
+    if (!this.email || !this.password) {
+      alert('Por favor, complete todos los campos');
+      return;
+    }
     try {
       const response = await axios.post('http://localhost:8090/authenticate/login', {
         email: this.email,
@@ -49,6 +53,7 @@ methods: {
 
     } catch (error) {
       console.error("Error en el login", error);
+      alert('Error al iniciar sesión');
       // Manejar error (mostrar mensaje al usuario)
     }
   },

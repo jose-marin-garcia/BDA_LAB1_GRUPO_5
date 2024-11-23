@@ -138,4 +138,16 @@ public class ProductoRepositoryImp implements ProductoRepository {
             throw new RuntimeException("Error al obtener el total de productos", e);
         }
     }
+
+    @Override
+    public String getProductoName(Integer idProducto) {
+        String queryText = "SELECT producto.nombre FROM producto WHERE id_producto = :idProducto";
+        try (Connection connection = sql2o.open()) {
+            return connection.createQuery(queryText)
+                    .addParameter("idProducto", idProducto)
+                    .executeScalar(String.class);
+        } catch (Exception e) {
+            throw new RuntimeException("Error al obtener el nombre del producto", e);
+        }
+    }
 }

@@ -11,6 +11,8 @@ public interface DetalleOrdenRepository {
     // Read
     DetalleOrden getDetalleOrden(Integer idDetalleOrden);
 
+    List<DetalleOrden> getDetalleOrdenByOrdenId(Integer idOrden);
+
     List<DetalleOrden> getAllDetalleOrden();
 
     // Update

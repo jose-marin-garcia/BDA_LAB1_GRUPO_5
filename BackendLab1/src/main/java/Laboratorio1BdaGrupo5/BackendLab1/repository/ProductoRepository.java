@@ -15,4 +15,5 @@ public interface ProductoRepository {
     void updateProducto(Producto producto);
     void deleteProducto(Integer idProducto);
     long getTotalCount();
+    String getProductoName(Integer idProducto);
 }

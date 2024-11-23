@@ -82,4 +82,12 @@ public class ProductoService {
             throw new RuntimeException("Error al obtener el total de productos", e);
         }
     }
+
+    public String getProductoName(Integer id) {
+        try {
+            return productoRepository.getProductoName(id);
+        } catch (Exception e) {
+            throw new RuntimeException("Error al obtener el nombre del producto", e);
+        }
+    }
 }

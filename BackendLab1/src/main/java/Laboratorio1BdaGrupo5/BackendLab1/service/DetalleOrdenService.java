@@ -27,6 +27,14 @@ public class DetalleOrdenService {
         }
     }
 
+    public List<DetalleOrden> getDetalleOrdenByOrdenId(Integer idOrden) {
+        try {
+            return detalleOrdenRepository.getDetalleOrdenByOrdenId(idOrden);
+        } catch (Exception e) {
+            throw new RuntimeException("No hay detalles asociados a esta Orden en la base de datos");
+        }
+    }
+
     public List<DetalleOrden> getAllDetalleOrden(){
         return detalleOrdenRepository.getAllDetalleOrden();
     }

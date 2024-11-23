@@ -50,6 +50,23 @@ public class DetalleOrdenRepositoryImp implements DetalleOrdenRepository {
     }
 
     @Override
+    public List<DetalleOrden> getDetalleOrdenByOrdenId(Integer idOrden) {
+        String queryText = "SELECT * FROM detalle_orden WHERE id_orden = :idOrden";
+        try (Connection connection = sql2o.open()) {
+            Query query = connection.createQuery(queryText)
+                    .addParameter("idOrden", idOrden)
+                    .addColumnMapping("ID_DETALLE", "idDetalle")
+                    .addColumnMapping("ID_ORDEN", "idOrden")
+                    .addColumnMapping("ID_PRODUCTO", "idProducto")
+                    .addColumnMapping("CANTIDAD", "cantidad")
+                    .addColumnMapping("PRECIO_UNITARIO", "precioUnitario");
+            return query.executeAndFetch(DetalleOrden.class);
+        } catch (Exception e) {
+            throw new RuntimeException("No se pudo obtener el DetalleOrden", e);
+        }
+    }
+
+    @Override
     public List<DetalleOrden> getAllDetalleOrden(){
         String queryText = "SELECT * FROM detalle_orden";
         try(Connection connection =sql2o.open()){

@@ -85,4 +85,13 @@ public class ProductoController {
         }
     }
 
+    @GetMapping("/getName/{id}")
+    public ResponseEntity<String> getProductoName(@PathVariable Integer id) {
+        try {
+            return ResponseEntity.ok(productoService.getProductoName(id));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Error al obtener el nombre del producto");
+        }
+    }
 }

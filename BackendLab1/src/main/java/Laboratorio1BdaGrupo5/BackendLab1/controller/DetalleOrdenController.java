@@ -26,6 +26,11 @@ public class DetalleOrdenController {
         return ResponseEntity.ok(detalleOrdenService.getDetalleOrdenById(id));
     }
 
+    @GetMapping("/getByOrderId/{id}")
+    public ResponseEntity<List<DetalleOrden>> getDetalleOrdenByOrdenId(@PathVariable Integer id) {
+        return ResponseEntity.ok(detalleOrdenService.getDetalleOrdenByOrdenId(id));
+    }
+
     @GetMapping("/getAll")
     public ResponseEntity<List<DetalleOrden>> getAllDetalleOrden(){
         return ResponseEntity.ok(detalleOrdenService.getAllDetalleOrden());
