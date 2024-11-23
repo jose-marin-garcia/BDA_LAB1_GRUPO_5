@@ -16,4 +16,5 @@ public interface ProductoRepository {
     void deleteProducto(Integer idProducto);
     long getTotalCount();
     String getProductoName(Integer idProducto);
+    Producto getMostVariablePriceProduct();
 }

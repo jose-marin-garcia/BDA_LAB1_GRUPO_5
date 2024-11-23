@@ -150,4 +150,31 @@ public class ProductoRepositoryImp implements ProductoRepository {
             throw new RuntimeException("Error al obtener el nombre del producto", e);
         }
     }
+
+    @Override
+    public Producto getMostVariablePriceProduct() {
+        String queryText = "WITH last_orders AS (" +
+                "    SELECT id_orden " +
+                "    FROM orden " +
+                "    ORDER BY fecha_orden DESC " +
+                "    LIMIT 100" +
+                ")" +
+                "SELECT " +
+                "    p.id_producto AS productId, " +
+                "    COUNT(d.id_producto) AS productCount, " +
+                "    AVG(d.precio_unitario) AS averagePrice, " +
+                "    STDDEV(d.precio_unitario) AS priceVariability " +
+                "FROM producto p " +
+                "JOIN detalle_orden d ON p.id_producto = d.id_producto " +
+                "JOIN last_orders l ON d.id_orden = l.id_orden " +
+                "GROUP BY p.id_producto " +
+                "HAVING STDDEV(d.precio_unitario) IS NOT NULL " +
+                "ORDER BY priceVariability DESC";
+        try (Connection connection = sql2o.open()) {
+            return connection.createQuery(queryText)
+                    .executeAndFetchFirst(Producto.class);
+        } catch (Exception e) {
+            throw new RuntimeException("Error al obtener producto con precio más variable", e);
+        }
+    }
 }

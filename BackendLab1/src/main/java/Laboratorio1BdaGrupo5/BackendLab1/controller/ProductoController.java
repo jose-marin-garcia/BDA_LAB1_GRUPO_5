@@ -94,4 +94,14 @@ public class ProductoController {
                     .body("Error al obtener el nombre del producto");
         }
     }
+
+    @GetMapping("/getVariablePriceProduct")
+    public ResponseEntity<Producto> getMostVariablePriceProduct() {
+        try {
+            return ResponseEntity.ok(productoService.getMostVariablePriceProduct());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(null);
+        }
+    }
 }

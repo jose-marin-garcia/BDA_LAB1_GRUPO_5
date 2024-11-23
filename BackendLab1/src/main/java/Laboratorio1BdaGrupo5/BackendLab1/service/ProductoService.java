@@ -90,4 +90,12 @@ public class ProductoService {
             throw new RuntimeException("Error al obtener el nombre del producto", e);
         }
     }
+
+    public Producto getMostVariablePriceProduct() {
+        try {
+            return productoRepository.getMostVariablePriceProduct();
+        } catch (Exception e) {
+            throw new RuntimeException("Error al obtener el producto con precio más variable", e);
+        }
+    }
 }
