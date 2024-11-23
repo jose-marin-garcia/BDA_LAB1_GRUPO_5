@@ -53,18 +53,20 @@
   <!-- Popup (Modal) para mostrar el producto -->
   <v-dialog v-model="isModalOpen" max-width="500">
     <v-card>
-      <v-card-title class="text-h5">Producto con Precio Variable</v-card-title>
+      <v-card-title class="text-h5">
+        Producto con la mayor variabilidad de precios en venta en las órdenes de compra, considerando las últimas 100 órdenes
+      </v-card-title>
       <v-card-text>
         <!-- Mostrar detalles del producto -->
         <div v-if="producto">
-          <p><strong>Nombre:</strong> {{ producto.nombre }}</p>
-          <p><strong>Descripción:</strong> {{ producto.descripcion }}</p>
-          <p><strong>Precio:</strong> ${{ producto.precio }}</p>
-          <p><strong>Stock:</strong> {{ producto.stock }}</p>
-          <p><strong>Estado:</strong> {{ producto.estado }}</p>
+            <p><strong>Nombre:</strong> {{ producto.nombre }}</p>
+            <p><strong>Descripción:</strong> {{ producto.descripcion }}</p>
+            <p><strong>Precio:</strong> ${{ producto.precio }}</p>
+            <p><strong>Stock:</strong> {{ producto.stock }}</p>
+            <p><strong>Estado:</strong> {{ producto.estado }}</p>
         </div>
         <div v-else>
-          <p>No se encontraron datos del producto.</p>
+            <p>No se encontraron datos del producto.</p>
         </div>
       </v-card-text>
       <v-card-actions>
@@ -80,11 +82,7 @@ import axios from "axios";
 
 const { cartCount } = useCart();
 
-//Estado del pop up
-
-
 export default {
-
   data() {
     return {
       abrirDrawer: false,
@@ -126,12 +124,11 @@ export default {
       localStorage.removeItem("userId");
       this.actualizarEstadoAutenticacion();
       alert("Sesión cerrada exitosamente");
-    }
-  },
-  async fetchVariablePriceProduct() {
+    },
+
+    async fetchVariablePriceProduct() {
       const API_URL = "http://localhost:8090/api/producto";
       try {
-        console.log("Botón presionado, enviando solicitud al backend...");
         const response = await axios.get(`${API_URL}/getVariablePriceProduct`);
         console.log("Datos recibidos:", response.data);
         this.producto = response.data; // Actualiza los datos del producto
@@ -141,6 +138,7 @@ export default {
         alert("No se pudo obtener el producto con precio variable.");
       }
     },
+  },
 };
 </script>
 
@@ -164,5 +162,10 @@ export default {
 .v-toolbar__content {
   display: grid;
   width: 100%;
+}
+
+.v-card-title {
+  word-wrap: break-word;
+  white-space: normal; 
 }
 </style>
