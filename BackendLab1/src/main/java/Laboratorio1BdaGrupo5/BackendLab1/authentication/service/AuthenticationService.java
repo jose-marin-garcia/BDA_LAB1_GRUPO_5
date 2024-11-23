@@ -30,6 +30,7 @@ public class AuthenticationService {
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .userId(user.getId())
+                .Name(user.getName())
                 .build();
     }
 }

@@ -43,10 +43,11 @@ methods: {
       });
       console.log("Respuesta del login", response.data);
       // Guardamos el JWT en localStorage o sessionStorage
-      localStorage.setItem('jwtToken', response.data.jwtToken);
+      localStorage.setItem("jwtToken", response.data.token);
 
       localStorage.setItem("isAuthenticated", true);
       localStorage.setItem("userId", response.data.userId);
+      localStorage.setItem("userName", response.data.name);
       
       // Redirigir al usuario a la página principal o dashboard
       this.$router.push('/');

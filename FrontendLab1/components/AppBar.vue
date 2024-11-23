@@ -10,33 +10,47 @@
 
     <!-- Contenedor para empujar los botones a la derecha -->
     <div class="ml-auto d-flex align-center">
-      <!-- Botones visibles según autenticación -->
-      <template v-if="isAuthenticated">
-
-        <!-- Botón para obtener producto con precio variable -->
-        <v-btn text class="mx-2" @click="fetchVariablePriceProduct">
-          <v-icon class="mr-2">mdi-tag</v-icon>SQL
-        </v-btn>
-
-        <v-btn text class="mx-2" href="/pedidos">Mis Pedidos</v-btn>
-        <v-btn icon color="white" href="/perfil"><v-icon>mdi-account-check</v-icon></v-btn>
-        <v-btn icon color="white" href="/cart">
-          <v-icon>mdi-cart-outline</v-icon>
-          <span v-if="cartCount > 0" class="badge">{{ cartCount }}</span>
-        </v-btn>
-        <v-btn icon color="white" @click="logout" class="mx-4"><v-icon>mdi-logout</v-icon></v-btn>
-      </template>
-      <template v-else>
-        <v-btn text class="mx-2" href="/login">Iniciar Sesión</v-btn>
-        <v-btn text class="mx-2" href="/register">Registro</v-btn>
-        <v-btn icon color="white" href="/cart">
-          <v-icon>mdi-cart-outline</v-icon>
-          <span v-if="cartCount > 0" class="badge">{{ cartCount }}</span>
-        </v-btn>
-      </template>
+      <!-- Menú desplegable para autenticación -->
+      <v-menu offset-y>
+        <template v-slot:activator="{ props }">
+          <v-btn text v-bind="props">
+            <v-icon>mdi-account-circle</v-icon>
+            <span>{{ isAuthenticated ? userName : 'Ingresar' }}</span>
+          </v-btn>
+        </template>
+        <v-list>
+          <template v-if="isAuthenticated">
+            <v-list-item>
+              <v-btn text href="/pedidos">Mis Pedidos</v-btn>
+            </v-list-item>
+            <v-list-item>
+              <v-btn text href="/perfil">Mi Cuenta</v-btn>
+            </v-list-item>
+            <v-list-item>
+              <v-btn text @click="logout">Cerrar Sesión</v-btn>
+            </v-list-item>
+          </template>
+          <template v-else>
+            <v-list-item>
+              <v-btn text href="/login">Iniciar Sesión</v-btn>
+            </v-list-item>
+            <v-list-item>
+              <v-btn text href="/register">Registro</v-btn>
+            </v-list-item>
+          </template>
+        </v-list>
+      </v-menu>
 
       <!-- Botón del carrito de compras -->
+      <v-btn icon color="white" href="/cart">
+        <v-icon>mdi-cart-outline</v-icon>
+        <span v-if="cartCount > 0" class="badge">{{ cartCount }}</span>
+      </v-btn>
 
+      <!-- Botón para obtener el producto con mayor variabilidad de precios -->
+      <v-btn text class="mx-2" @click="fetchVariablePriceProduct">
+        <v-icon class="mr-2">mdi-tag</v-icon>SQL
+      </v-btn>
     </div>
   </v-app-bar>
 
@@ -59,14 +73,14 @@
       <v-card-text>
         <!-- Mostrar detalles del producto -->
         <div v-if="producto">
-            <p><strong>Nombre:</strong> {{ producto.nombre }}</p>
-            <p><strong>Descripción:</strong> {{ producto.descripcion }}</p>
-            <p><strong>Precio:</strong> ${{ producto.precio }}</p>
-            <p><strong>Stock:</strong> {{ producto.stock }}</p>
-            <p><strong>Estado:</strong> {{ producto.estado }}</p>
+          <p><strong>Nombre:</strong> {{ producto.nombre }}</p>
+          <p><strong>Descripción:</strong> {{ producto.descripcion }}</p>
+          <p><strong>Precio:</strong> ${{ producto.precio }}</p>
+          <p><strong>Stock:</strong> {{ producto.stock }}</p>
+          <p><strong>Estado:</strong> {{ producto.estado }}</p>
         </div>
         <div v-else>
-            <p>No se encontraron datos del producto.</p>
+          <p>No se encontraron datos del producto.</p>
         </div>
       </v-card-text>
       <v-card-actions>
@@ -87,20 +101,27 @@ export default {
     return {
       abrirDrawer: false,
       categorias: [],
+      userName: "",
       isAuthenticated: false, // Se inicializa en falso
       producto: null, // Producto obtenido del backend
       isModalOpen: false,
     };
   },
+  computed: {
+    userName() {
+      return localStorage.getItem("userName") || ""; // Obtiene siempre el valor actualizado de localStorage
+    }
+  },
   mounted() {
     this.obtenerCategorias();
     this.actualizarEstadoAutenticacion(); // Actualiza el estado autenticado
+    this.userName = localStorage.getItem("userName") || ""; 
   },
   watch: {
     // Observa los cambios en la ruta para actualizar el estado de autenticación
     '$route'(to, from) {
       this.actualizarEstadoAutenticacion();
-    }
+    },
   },
   methods: {
     async obtenerCategorias() {
@@ -122,6 +143,8 @@ export default {
       }
       localStorage.setItem("isAuthenticated", false);
       localStorage.removeItem("userId");
+      localStorage.removeItem("jwtToken");
+      localStorage.removeItem("userName");
       this.actualizarEstadoAutenticacion();
       alert("Sesión cerrada exitosamente");
     },
