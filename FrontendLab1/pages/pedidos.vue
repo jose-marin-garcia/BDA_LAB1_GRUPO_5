@@ -48,7 +48,7 @@
       <div class="bg-white p-6 rounded-lg w-1/2">
         <h2 class="text-xl font-semibold mb-4">Detalles de la Orden</h2>
         <hr class="border-gray-300 mb-4">
-        <div v-if="orderDetails && orderDetails.length > 0">
+        <div v-if="orderDetails && orderDetails.length > 0" class="max-h-96 overflow-y-auto">
           <div v-for="(detail, index) in orderDetails" :key="index" class="mb-4 border-b pb-2">
             <div class="flex justify-between relative">
               <p class="flex-1"><strong>Producto:</strong> {{ detail.nombre }}</p>
