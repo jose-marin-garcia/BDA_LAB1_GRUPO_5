@@ -11,10 +11,9 @@ Pasos para ejecutar el programa:
 psql -U postgres -h localhost -d lab1bda -f dump.sql
 
 
-En el terminal del Front ejecute "npm install"
+Luego dentro de visual estudio abra "FrontEndLab1" y En el terminal del Front ejecute "npm install"
 
-Luego ejecute "npm audit fix"
+Luego ejecute "npm audit fix" y "npm install axios"
 
-""npm install axios"
 
 Para correr el frontend en la consola anote "npm run dev" y presione con ctrl + click izquierdo http://localhost:3000/ o este link por 

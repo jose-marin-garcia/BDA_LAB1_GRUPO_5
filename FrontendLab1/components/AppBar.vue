@@ -12,6 +12,12 @@
     <div class="ml-auto d-flex align-center">
       <!-- Botones visibles según autenticación -->
       <template v-if="isAuthenticated">
+
+        <!-- Botón para obtener producto con precio variable -->
+        <v-btn text class="mx-2" @click="fetchVariablePriceProduct">
+          <v-icon class="mr-2">mdi-tag</v-icon>SQL
+        </v-btn>
+
         <v-btn text class="mx-2" href="/pedidos">Mis Pedidos</v-btn>
         <v-btn icon color="white" href="/perfil"><v-icon>mdi-account-check</v-icon></v-btn>
         <v-btn icon color="white" href="/cart">
@@ -43,6 +49,29 @@
       </v-list-item>
     </v-list>
   </v-navigation-drawer>
+
+  <!-- Popup (Modal) para mostrar el producto -->
+  <v-dialog v-model="isModalOpen" max-width="500">
+    <v-card>
+      <v-card-title class="text-h5">Producto con Precio Variable</v-card-title>
+      <v-card-text>
+        <!-- Mostrar detalles del producto -->
+        <div v-if="producto">
+          <p><strong>Nombre:</strong> {{ producto.nombre }}</p>
+          <p><strong>Descripción:</strong> {{ producto.descripcion }}</p>
+          <p><strong>Precio:</strong> ${{ producto.precio }}</p>
+          <p><strong>Stock:</strong> {{ producto.stock }}</p>
+          <p><strong>Estado:</strong> {{ producto.estado }}</p>
+        </div>
+        <div v-else>
+          <p>No se encontraron datos del producto.</p>
+        </div>
+      </v-card-text>
+      <v-card-actions>
+        <v-btn color="primary" text @click="isModalOpen = false">Cerrar</v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script>
@@ -51,6 +80,9 @@ import axios from "axios";
 
 const { cartCount } = useCart();
 
+//Estado del pop up
+
+
 export default {
 
   data() {
@@ -58,6 +90,8 @@ export default {
       abrirDrawer: false,
       categorias: [],
       isAuthenticated: false, // Se inicializa en falso
+      producto: null, // Producto obtenido del backend
+      isModalOpen: false,
     };
   },
   mounted() {
@@ -94,6 +128,19 @@ export default {
       alert("Sesión cerrada exitosamente");
     }
   },
+  async fetchVariablePriceProduct() {
+      const API_URL = "http://localhost:8090/api/producto";
+      try {
+        console.log("Botón presionado, enviando solicitud al backend...");
+        const response = await axios.get(`${API_URL}/getVariablePriceProduct`);
+        console.log("Datos recibidos:", response.data);
+        this.producto = response.data; // Actualiza los datos del producto
+        this.isModalOpen = true; // Abre el modal
+      } catch (error) {
+        console.error("Error fetching variable price product:", error);
+        alert("No se pudo obtener el producto con precio variable.");
+      }
+    },
 };
 </script>
 
