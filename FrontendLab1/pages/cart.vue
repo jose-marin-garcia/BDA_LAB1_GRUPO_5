@@ -36,28 +36,42 @@ import { useCart } from '@/composables/useCart'
 import axios from 'axios'
 
 const { cartItems, cartTotal, increaseQuantity, decreaseQuantity, clearCart } = useCart()
-const API_URL = 'http://localhost:8080/api'
+const API_URL = 'http://localhost:8090/api'
 
 const total = computed(() => {
   return cartItems.value.reduce((sum, item) => sum + (item.product.price * item.quantity), 0)
 })
 
 const checkout = async () => {
+  cartItems.value.map(item => {
+    console.log(item.idProducto);
+  })
   try {
-    await axios.post(`${API_URL}/orden`, {
-      id_cliente: 1,
-      fecha: new Date(),
-      total: cartTotal.value,
+    // Crear el objeto para enviar
+    const ordenPagoRequest = {
       detalles: cartItems.value.map(item => ({
-        idProducto: item.id,
+        idProducto: item.idProducto,
         cantidad: item.quantity,
-        precio_unitario: item.price,
-      }))
-    })
-    clearCart()
-    alert('Orden enviada exitosamente.')
+        precioUnitario: item.precio || null, // Incluye el precio si es necesario
+      })),
+      orden: {
+        idCliente: 1, // Cambia según sea necesario
+        fechaOrden: new Date(),
+        estado: 'pendiente', // Asegúrate de usar un estado válido en el backend
+        total: null, // Opcional si el backend lo calcula
+      }
+    };
+
+    // Realizar la solicitud al backend
+    await axios.post(`${API_URL}/orden/pagar`, ordenPagoRequest);
+
+    clearCart(); // Vacía el carrito tras el éxito
+    alert('Orden enviada exitosamente.');
   } catch (error) {
-    console.error('Error al enviar la orden:', error)
+    console.error('Error al enviar la orden:', error);
+    alert('Hubo un problema al procesar tu orden.');
   }
-}
+};
+
+
 </script>
