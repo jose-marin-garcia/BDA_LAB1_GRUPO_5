@@ -40,13 +40,13 @@ INSERT INTO cliente (nombre, direccion, email, telefono, password) VALUES
 
 -- Insertar ordenes
 INSERT INTO orden (estado, id_cliente, total) VALUES 
-('pendiente', 1, 0.00),
-('pagada', 2, 0.00),
-('enviada', 3, 0.00),
-('pendiente', 4, 0.00),
-('pagada', 5, 0.00),
-('pendiente', 1, 914.98),
-('pendiente', 1, 4405.46);
+(1, 'pendiente', 1, 875.48),
+(2, 'pagada', 2, 1745.97),
+(3, 'enviada', 3, 1200.00),
+(4, 'pendiente', 4, 439.99),
+(5, 'pagada', 5, 295.00),
+(6, 'pendiente', 1, 2314.97),
+(7, 'pendiente', 1, 4405.46);
 
 -- Insertar detalles de orden
 INSERT INTO detalle_orden (id_orden, id_producto, cantidad, precio_unitario) VALUES
