@@ -32,7 +32,7 @@ public class SecurityConfig {
                     customizeRequests
                             .requestMatchers("/authenticate/**").permitAll()
                             .requestMatchers(HttpMethod.GET, "/api/producto/**", "/api/categoria/**", "/api/cliente/**", "/api/detalleorden/**", "/api/orden/**").permitAll()
-                            .requestMatchers(HttpMethod.POST, "/api/producto/**", "/api/categoria/**", "/api/cliente/**", "/api/detalleorden/**", "/api/orden").permitAll()
+                            .requestMatchers(HttpMethod.POST, "/api/producto/**", "/api/categoria/**", "/api/cliente/**", "/api/detalleorden/**", "/api/orden/**").permitAll()
                             .requestMatchers(HttpMethod.DELETE, "/api/producto/**", "/api/categoria/**", "/api/cliente/**", "/api/detalleorden/**", "/api/orden").permitAll()
                             .requestMatchers(HttpMethod.PUT, "/api/producto/**", "/api/categoria/**", "/api/cliente/**", "/api/detalleorden/**", "/api/orden").permitAll()
                             .anyRequest().authenticated();

@@ -8,8 +8,13 @@
         :key="order.idOrden"
         class="border border-gray-300 rounded-lg shadow-md p-4"
       >
+      <p class="text-xl font-semibold mb-2">Fecha de pedido</p>
         <h2 class="text-xl font-semibold mb-2">{{ formatDate(order.fechaOrden) }}</h2>
-        <p class="text-gray-600 mb-2">{{ order.estado }}</p>
+        <p class="text-xl font-semibold mb-2">Estado</p>
+        <span :class="['font-medium', getStateColor(order.estado)]">
+           {{ order.estado }}
+          </span>
+        <p class="text-xl font-semibold mb-2">Costo Total</p>
         <div class="flex justify-between items-center mb-4">
           <span class="text-xl font-bold">${{ order.total }}</span>
         </div>
@@ -33,10 +38,9 @@
       <div class="bg-white p-6 rounded-lg w-1/2">
         <h2 class="text-xl font-semibold mb-4">Detalles de la Orden</h2>
         <div v-if="orderDetails">
-          <p><strong>Producto:</strong> {{ orderDetails.producto }}</p>
+          <p><strong>Producto:</strong> {{ orderDetails.idProducto }}</p>
           <p><strong>Cantidad:</strong> {{ orderDetails.cantidad }}</p>
           <p><strong>Precio Unitario:</strong> ${{ orderDetails.precioUnitario }}</p>
-          <p><strong>Total:</strong> ${{ orderDetails.total }}</p>
         </div>
         <button @click="closeModal" class="bg-red-500 text-white px-4 py-2 rounded mt-4">
           Cerrar
@@ -117,6 +121,13 @@ onMounted(fetchOrders);
 
 // Actualizar las órdenes cuando se cambie la página
 watch(currentPage, fetchOrders);
+
+const getStateColor = (estado) => {
+  if (estado === "pendiente") return 'text-red-500'
+  if (estado === "pagada") return 'text-orange-500'
+  return 'text-green-500'
+}
+
 
 </script>
 
