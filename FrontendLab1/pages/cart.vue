@@ -55,7 +55,7 @@ const checkout = async () => {
         precioUnitario: item.precio || null, // Incluye el precio si es necesario
       })),
       orden: {
-        idCliente: 1, // Cambia según sea necesario
+        idCliente: localStorage.getItem("userId"), // Cambia según sea necesario
         fechaOrden: new Date(),
         estado: 'pendiente', // Asegúrate de usar un estado válido en el backend
         total: null, // Opcional si el backend lo calcula
