@@ -27,9 +27,7 @@
           {{ categoria.nombre }}
         </option>
       </select>
-
     </div>
-
     <!-- Lista de productos -->
     <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
       <div v-for="product in products" :key="product.idProducto" class="border border-gray-300 rounded-lg shadow-md p-4">
@@ -136,6 +134,7 @@ const filterByCategory = async () => {
     console.error("Error filtering by category:", error);
   }
 };
+
 
 
 const searchProducts = () => {

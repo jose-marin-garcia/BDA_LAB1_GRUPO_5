@@ -71,6 +71,18 @@ public class ProductoRepositoryImp implements ProductoRepository {
         }
     }
 
+    @Override
+    public List<Producto> getProductosPorCategoria(String nombre) {
+        nombre = nombre.toLowerCase();
+        String query = "SELECT  id_producto AS idProducto, producto.nombre, descripcion, precio, stock, estado, producto.id_categoria AS idCategoria " +
+        "FROM producto, categoria WHERE producto.id_categoria = categoria.id_categoria AND (LOWER(categoria.nombre) LIKE :nombre)";
+        try (Connection connection = sql2o.open()) {
+            return connection.createQuery(query)
+                    .addParameter("nombre", "%" + nombre + "%")
+                    .executeAndFetch(Producto.class);
+        }
+    }
+
 
     @Override
     public void createProducto(Producto producto) {

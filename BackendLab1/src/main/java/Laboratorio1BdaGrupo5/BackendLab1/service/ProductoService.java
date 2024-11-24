@@ -55,12 +55,7 @@ public class ProductoService {
 
     public List<Producto> getProductosPorCategoria(String nombre){
         try {
-            List<Categoria> categorias = categoriaService.searchCategoria(nombre);
-            List<Producto> productos = new ArrayList<>();
-            for (Categoria categoria : categorias) {
-                productos.addAll(getProductosPorCategoria(categoria.getIdCategoria()));
-            }
-            return productos;
+            return productoRepository.getProductosPorCategoria(nombre);
         } catch (Exception e) {
             throw new RuntimeException("Error al obtener productos por categoria", e);
         }
