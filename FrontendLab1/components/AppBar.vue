@@ -125,6 +125,7 @@ export default {
       localStorage.removeItem("userId");
       localStorage.removeItem("jwtToken");
       localStorage.removeItem("userName");
+      localStorage.removeItem("cartItems");
       this.actualizarEstadoAutenticacion();
       alert("Sesión cerrada exitosamente");
     },
