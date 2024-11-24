@@ -65,4 +65,11 @@ public class CategoriaService {
         }
     }
 
+    public List<Categoria> searchCategoria(String categoria) {
+        try {
+            return categoriaRepository.searchCategoria(categoria);
+        } catch (Exception e){
+            throw new RuntimeException("Error al buscar la categoria", e);
+        }
+    }
 }

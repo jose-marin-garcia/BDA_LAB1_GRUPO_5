@@ -1,11 +1,13 @@
 package Laboratorio1BdaGrupo5.BackendLab1.service;
 
+import Laboratorio1BdaGrupo5.BackendLab1.models.Categoria;
 import Laboratorio1BdaGrupo5.BackendLab1.models.Producto;
 import Laboratorio1BdaGrupo5.BackendLab1.repository.ProductoRepository;
 import Laboratorio1BdaGrupo5.BackendLab1.repository.ProductoRepositoryImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,6 +16,8 @@ public class ProductoService {
 
     @Autowired
     private ProductoRepositoryImp productoRepository;
+
+    @Autowired CategoriaService categoriaService;
 
 
     public List<Producto> getAllProductos(int limit, int offset, String search) {
@@ -46,6 +50,19 @@ public class ProductoService {
             return productoRepository.getProductosPorCategoria(idCategoria);
         } catch (Exception e) {
             throw new RuntimeException("Error al obtener la lista de productos por categoría", e);
+        }
+    }
+
+    public List<Producto> getProductosPorCategoria(String nombre){
+        try {
+            List<Categoria> categorias = categoriaService.searchCategoria(nombre);
+            List<Producto> productos = new ArrayList<>();
+            for (Categoria categoria : categorias) {
+                productos.addAll(getProductosPorCategoria(categoria.getIdCategoria()));
+            }
+            return productos;
+        } catch (Exception e) {
+            throw new RuntimeException("Error al obtener productos por categoria", e);
         }
     }
 

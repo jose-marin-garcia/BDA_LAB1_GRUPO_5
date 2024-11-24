@@ -14,4 +14,6 @@ public interface CategoriaRepository {
     void deleteCategoria(Integer id_categoria);
 
     List<Categoria> getAllCategorias();
+
+    List<Categoria> searchCategoria(String name);
 }

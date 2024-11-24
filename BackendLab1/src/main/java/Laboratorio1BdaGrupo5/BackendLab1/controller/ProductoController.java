@@ -109,4 +109,19 @@ public class ProductoController {
                     .body(null);
         }
     }
+
+    @GetMapping("/getByCategoria/{categoria}")
+    public ResponseEntity<List<Producto>> getByCategoria(@PathVariable String categoria){
+        try {
+            List<Producto> p = productoService.getProductosPorCategoria(categoria);
+            if (p == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(null);
+            }
+            return ResponseEntity.ok(p);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(null);
+        }
+    }
 }

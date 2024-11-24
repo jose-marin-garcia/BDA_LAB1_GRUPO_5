@@ -1,6 +1,7 @@
 package Laboratorio1BdaGrupo5.BackendLab1.repository;
 
 import Laboratorio1BdaGrupo5.BackendLab1.models.Categoria;
+import Laboratorio1BdaGrupo5.BackendLab1.models.Producto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.sql2o.Connection;
@@ -86,6 +87,22 @@ public class CategoriaRepositoryImp implements CategoriaRepository{
         } catch (Exception e) {
             System.err.println("Error en la conexión a la base de datos: " + e.getMessage());
             throw new RuntimeException("Error al eliminar la Categoria", e);
+        }
+    }
+
+    public List<Categoria> searchCategoria(String categoria) {
+        categoria = categoria.toLowerCase();
+        String queryText = "SELECT id_categoria AS idCategoria" +
+                ", nombre "+
+                "FROM categoria WHERE LOWER(nombre) LIKE :categoria";
+        try (Connection connection = sql2o.open()) {
+            System.out.println("Conexión exitosa a la base de datos");
+            return connection.createQuery(queryText)
+                    .addParameter("categoria", "%" + categoria + "%")
+                    .executeAndFetch(Categoria.class);
+        } catch (Exception e) {
+            System.err.println("Error en la conexión a la base de datos: " + e.getMessage());
+            throw new RuntimeException("Error al obtener las categorias", e);
         }
     }
 }
