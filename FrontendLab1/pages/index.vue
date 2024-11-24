@@ -22,7 +22,8 @@
           </span>
         </div>
         <button @click="() => {
-          product.stock--;addToCart(product); console.log(cartItems.value);
+          addToCart(product);
+          product.stock--;
         }" class="w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 disabled:bg-gray-400"
           :disabled="product.stock === 0">
           {{ product.stock === 0 ? 'Agotado' : 'Agregar a carrito' }}
@@ -37,50 +38,62 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from 'vue'
-import { useCart } from '@/composables/useCart.js'
-import axios from 'axios'
+import { ref, onMounted, watch } from 'vue';
+import { useCart } from '@/composables/useCart.js';
+import axios from 'axios';
 
-const products = ref([])
-const currentPage = ref(1)
-const totalPages = ref(1)
-const API_URL = 'http://localhost:8090/api'
-const searchQuery = ref('')
-const { addToCart } = useCart()
+const products = ref([]);
+const currentPage = ref(1);
+const totalPages = ref(1);
+const searchQuery = ref('');
+const API_URL = 'http://localhost:8090/api';
+const { addToCart, cartItems } = useCart();
+
+// Sincronizar el stock de los productos con los del carrito
+const syncStockWithCart = () => {
+  products.value.forEach((product) => {
+    const cartItem = cartItems.value.find((item) => item.idProducto === product.idProducto);
+    if (cartItem) {
+      product.stock -= cartItem.quantity;
+    }
+  });
+};
 
 const fetchProducts = async () => {
   const limit = 8; // Número de productos por página
   const offset = (currentPage.value - 1) * limit;
+
   try {
     const response = await axios.get(`${API_URL}/producto`, {
       params: {
         limit: limit,
         offset: offset,
-        search: searchQuery.value
-      }
+        search: searchQuery.value,
+      },
     });
     products.value = response.data.products;
     totalPages.value = Math.ceil(response.data.totalCount / limit);
-    console.log(response.data);
+
+    // Sincronizar el stock con el carrito después de cargar los productos
+    syncStockWithCart();
   } catch (error) {
     console.error('Error fetching products:', error);
   }
 };
 
-watch(currentPage, fetchProducts)
+watch(currentPage, fetchProducts);
 
 const searchProducts = () => {
-  console.log("Test");
   currentPage.value = 1;
   fetchProducts();
-}
+};
 
-onMounted(fetchProducts)
+onMounted(fetchProducts);
 
 const getStockColorClass = (stock) => {
-  if (stock === 0) return 'text-red-500'
-  if (stock <= 5) return 'text-orange-500'
-  return 'text-green-500'
-}
-
+  if (stock === 0) return 'text-red-500';
+  if (stock <= 5) return 'text-orange-500';
+  return 'text-green-500';
+};
 </script>
+

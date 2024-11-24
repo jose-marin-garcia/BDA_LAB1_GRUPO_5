@@ -1,88 +1,77 @@
-// composables/useCart.js
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch } from 'vue';
 
-// Recuperar carrito desde localStorage si existe
-const savedCart = JSON.parse(localStorage.getItem('cartItems')) || []
+const savedCart = JSON.parse(localStorage.getItem('cartItems')) || [];
+const cartItems = ref(savedCart);
 
-// Singleton: Crear referencias únicas
-const cartItems = ref(savedCart) // Estado del carrito compartido globalmente
-
-// Contador de productos en el carrito
-const cartCount = computed(() => cartItems.value.reduce((sum, item) => sum + item.quantity, 0))
-
-// Calcular el total del carrito
+const cartCount = computed(() => cartItems.value.reduce((sum, item) => sum + item.quantity, 0));
 const cartTotal = computed(() =>
   cartItems.value.reduce((sum, item) => sum + item.precio * item.quantity, 0)
-)
+);
 
-
-// Función para agregar productos al carrito
 const addToCart = (product) => {
-  if (product.stock > 0) {
-    const existingProduct = cartItems.value.find(item => item.idProducto === product.idProducto)
-    if (existingProduct) {
-      if (product.stock >= 0) {
-        existingProduct.quantity += 1
-      }
-      
-    } else {
-      cartItems.value.push({ ...product, quantity: 1 })
-    }
+  const existingProduct = cartItems.value.find((item) => item.idProducto === product.idProducto);
+  if (existingProduct) {
+    existingProduct.quantity += 1;
+  } else {
+    cartItems.value.push({
+      idProducto: product.idProducto,
+      nombre: product.nombre,
+      descripcion: product.descripcion,
+      precio: product.precio,
+      stock: product.stock,
+      quantity: 1,
+    });
   }
-}
+};
 
-// Aumentar la cantidad de un producto en el carrito
 const increaseQuantity = (productId) => {
-  const product = cartItems.value.find(item => item.idProducto === productId)
-  console.log(product.stock)
-  console.log(product.quantity)
-  if (product && product.stock > 0) {
-    product.quantity += 1
-    product.stock -= 1
+  const product = cartItems.value.find((item) => item.idProducto === productId);
+  if (product && product.stock-product.quantity > 0) {
+    product.quantity += 1;
+    product.stock -= 1;
   }
-}
+  else{
+    alert("No hay stock disponible");
+  }
+};
 
-// Disminuir la cantidad de un producto en el carrito
 const decreaseQuantity = (productId) => {
-  const product = cartItems.value.find(item => item.idProducto === productId)
+  const product = cartItems.value.find((item) => item.idProducto === productId);
   if (product && product.quantity > 0) {
-    product.quantity -= 1
-    product.stock += 1
-  } else if (product) {
-    // Eliminar el producto si la cantidad llega a 0
-    removeItem(productId)
+    product.quantity -= 1;
+    product.stock += 1;
   }
-}
+  if (product.quantity === 0) {
+    removeItem(productId);
+  }
+};
 
-// Eliminar un producto del carrito
 const removeItem = (productId) => {
-  const productIndex = cartItems.value.findIndex(item => item.idProducto === productId)
+  const productIndex = cartItems.value.findIndex((item) => item.idProducto === productId);
   if (productIndex !== -1) {
-    cartItems.value[productIndex].stock += cartItems.value[productIndex].quantity // Devolver el stock
-    cartItems.value.splice(productIndex, 1)
+    cartItems.value.splice(productIndex, 1);
   }
-}
+};
 
-// Función para vaciar el carrito después de pagar
 const clearCart = () => {
-  cartItems.value = []
-}
+  cartItems.value = [];
+};
 
-// Guardar el carrito en localStorage cada vez que cambie
-watch(cartItems, (newCart) => {
-  localStorage.setItem('cartItems', JSON.stringify(newCart))
-}, { deep: true })
+watch(
+  cartItems,
+  (newCart) => {
+    localStorage.setItem('cartItems', JSON.stringify(newCart));
+  },
+  { deep: true }
+);
 
-// Exportar el composable
-export const useCart = () => {
-  return {
-    cartItems,
-    cartCount,
-    cartTotal,
-    addToCart,
-    increaseQuantity,
-    decreaseQuantity,
-    removeItem,
-    clearCart,
-  }
-}
+export const useCart = () => ({
+  cartItems,
+  cartCount,
+  cartTotal,
+  addToCart,
+  increaseQuantity,
+  decreaseQuantity,
+  removeItem,
+  clearCart,
+});
