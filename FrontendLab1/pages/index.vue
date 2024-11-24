@@ -23,17 +23,31 @@
         </div>
         <button @click="() => {
           addToCart(product);
+          agregando();
+          show();
           product.stock--;
         }" class="w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 disabled:bg-gray-400"
           :disabled="product.stock === 0">
-          {{ product.stock === 0 ? 'Agotado' : 'Agregar a carrito' }}
+          {{ product.stock === 0 ? 'Agotado' : agregarCarrito }}
         </button>
       </div>
     </div>
-
+    
     <!-- Pagination Component -->
     <v-pagination v-model="currentPage" :length="totalPages" color="primary" class="mt-6" />
-
+    
+    <div 
+      v-if="visible"
+      class="fixed inset-0 flex items-end justify-center z-50 mb-[10%]" 
+      @click="hide"
+    >
+      <div 
+        class="bg-gray-800 text-white p-4 rounded text-center shadow-lg"
+        style="background: rgba(0, 0, 0, 0.7); min-width: 300px;"
+      >
+        {{ feedBackMessage }}
+      </div>
+    </div>
   </div>
 </template>
 
@@ -42,6 +56,9 @@ import { ref, onMounted, watch } from 'vue';
 import { useCart } from '@/composables/useCart.js';
 import axios from 'axios';
 
+const feedBackMessage = 'Producto agregado al carrito';
+const visible = ref(false);
+const agregarCarrito = ref('Agregar a carrito');
 const products = ref([]);
 const currentPage = ref(1);
 const totalPages = ref(1);
@@ -86,6 +103,20 @@ watch(currentPage, fetchProducts);
 const searchProducts = () => {
   currentPage.value = 1;
   fetchProducts();
+};
+
+const agregando = () => {
+  agregarCarrito.value = 'Cargando...';
+  setTimeout(() => {
+    agregarCarrito.value = 'Agregar a carrito';
+  }, 200);
+}
+
+const show = () => {
+  visible.value = true;
+  setTimeout(() => {
+    visible.value = false;
+  }, 600);
 };
 
 onMounted(fetchProducts);
