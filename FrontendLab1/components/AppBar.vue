@@ -112,7 +112,7 @@ export default {
     actualizarEstadoAutenticacion() {
       // Verifica el estado de autenticación desde localStorage
       this.isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
-      if (!this.isAuthenticated) {
+      if (!this.isAuthenticated && this.$route.path !== "/register" && this.$route.path !== "/login") {
         this.$router.push("/login"); // Redirige a la página de inicio de sesión
       }
     },
