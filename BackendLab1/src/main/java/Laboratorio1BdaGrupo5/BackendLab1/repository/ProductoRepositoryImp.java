@@ -32,8 +32,9 @@ public class ProductoRepositoryImp implements ProductoRepository {
 
     @Override
     public List<Producto> getProductosSearch(int limit, int offset, String search) {
+        search = search.toLowerCase();
         String queryText = "SELECT id_producto AS idProducto, nombre, descripcion, precio, stock, estado, id_categoria AS idCategoria " +
-                "FROM producto WHERE nombre LIKE CONCAT('%', :search, '%') LIMIT :limit OFFSET :offset";
+                "FROM producto WHERE LOWER(nombre) LIKE CONCAT('%', :search, '%') LIMIT :limit OFFSET :offset";
         try (Connection connection = sql2o.open()) {
             System.out.println("Conexión exitosa a la base de datos");
             return connection.createQuery(queryText)
