@@ -1,3 +1,6 @@
+
+SET client_encoding TO 'UTF8';
+
 -- Insertar categorías
 INSERT INTO categoria (nombre) VALUES 
 ('Electrónica'),

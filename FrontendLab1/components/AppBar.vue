@@ -5,9 +5,6 @@
       <v-icon>mdi-store</v-icon>
     </v-btn>
 
-    <!-- Botón para categorías -->
-    <v-btn @click="abrirDrawer = !abrirDrawer">Categorías</v-btn>
-
     <!-- Contenedor para empujar los botones a la derecha -->
     <div class="ml-auto d-flex align-center">
       <!-- Menú desplegable para autenticación -->
@@ -54,16 +51,6 @@
     </div>
   </v-app-bar>
 
-  <!-- Drawer para las categorías -->
-  <v-navigation-drawer v-model="abrirDrawer" app temporary>
-    <v-list>
-      <v-list-item v-for="categoria in categorias" :key="categoria.idCategoria"
-        @click="filtrarPorCategoria(categoria.idCategoria)">
-        <v-list-item-title>{{ categoria.nombre }}</v-list-item-title>
-      </v-list-item>
-    </v-list>
-  </v-navigation-drawer>
-
   <!-- Popup (Modal) para mostrar el producto -->
   <v-dialog v-model="isModalOpen" max-width="500">
     <v-card>
@@ -100,7 +87,6 @@ export default {
   data() {
     return {
       abrirDrawer: false,
-      categorias: [],
       userName: "",
       isAuthenticated: false, // Se inicializa en falso
       producto: null, // Producto obtenido del backend
@@ -113,7 +99,6 @@ export default {
     }
   },
   mounted() {
-    this.obtenerCategorias();
     this.actualizarEstadoAutenticacion(); // Actualiza el estado autenticado
     this.userName = localStorage.getItem("userName") || ""; 
   },
@@ -124,14 +109,6 @@ export default {
     },
   },
   methods: {
-    async obtenerCategorias() {
-      const response = await axios.get("http://localhost:8090/api/categoria");
-      this.categorias = response.data;
-    },
-    async filtrarPorCategoria(id) {
-      const response = await axios.get(`http://localhost:8090/api/categoria/${id}`);
-      console.log(response.data); // Maneja los productos filtrados
-    },
     actualizarEstadoAutenticacion() {
       // Verifica el estado de autenticación desde localStorage
       this.isAuthenticated = localStorage.getItem("isAuthenticated") === "true";

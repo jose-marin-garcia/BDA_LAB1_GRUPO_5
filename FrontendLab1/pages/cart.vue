@@ -52,13 +52,13 @@ const checkout = async () => {
       detalles: cartItems.value.map(item => ({
         idProducto: item.idProducto,
         cantidad: item.quantity,
-        precioUnitario: item.precio || null, // Incluye el precio si es necesario
+        precioUnitario: item.precio || null,
       })),
       orden: {
-        idCliente: localStorage.getItem("userId"), // Cambia según sea necesario
+        idCliente: localStorage.getItem("userId"),
         fechaOrden: new Date(),
-        estado: 'pendiente', // Asegúrate de usar un estado válido en el backend
-        total: null, // Opcional si el backend lo calcula
+        estado: 'pendiente',
+        total: null,
       }
     };
 
