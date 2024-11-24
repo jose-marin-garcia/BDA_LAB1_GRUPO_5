@@ -173,6 +173,7 @@ export default {
           this.$router.push("/login");
         })
         .catch((error) => {
+          alert("Error al registrar el usuario. Por favor, inténtelo de nuevo.");
           console.log(error);
         });
     },
