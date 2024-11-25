@@ -169,7 +169,7 @@ FOR EACH ROW EXECUTE FUNCTION registrar_actividad();
 
 CREATE OR REPLACE FUNCTION reporte_act_client()
 RETURNS TABLE(
-    usuario VARCHAR(255),
+    usuario INTEGER,
     inserts BIGINT,
     updates BIGINT,
     deletes BIGINT,
@@ -178,13 +178,13 @@ RETURNS TABLE(
 BEGIN
     RETURN QUERY
     SELECT 
-        query_audit.usuario,
+        query_audit.id_cliente,
         COUNT(CASE WHEN tipo_operacion = 'INSERT' THEN 1 END) AS inserts,
         COUNT(CASE WHEN tipo_operacion = 'UPDATE' THEN 1 END) AS updates,
         COUNT(CASE WHEN tipo_operacion = 'DELETE' THEN 1 END) AS deletes,
         COUNT(*) AS total
     FROM query_audit
-    GROUP BY query_audit.usuario
+    GROUP BY query_audit.id_cliente
     ORDER BY total DESC;
 END;
 $$ LANGUAGE plpgsql;
