@@ -202,11 +202,6 @@ BEGIN
     SET stock = stock - NEW.cantidad
     WHERE id_producto = NEW.id_producto;
 
-    -- Verificar si el stock no se vuelve negativo
-    IF (SELECT stock FROM producto WHERE id_producto = NEW.id_producto) < 0 THEN
-        RAISE EXCEPTION 'Stock insuficiente para el producto ID: %', NEW.id_producto;
-    END IF;
-
     --Cambio del estado
     UPDATE producto
     SET estado = 'agotado'
