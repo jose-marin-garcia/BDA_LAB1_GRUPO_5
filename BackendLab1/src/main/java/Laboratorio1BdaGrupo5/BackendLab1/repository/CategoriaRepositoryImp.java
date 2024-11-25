@@ -48,11 +48,10 @@ public class CategoriaRepositoryImp implements CategoriaRepository{
 
     @Override
     public void createCategoria(Categoria categoria) {
-        String queryText = "INSERT INTO categoria (id_categoria, nombre) " +
-                "VALUES (:id_categoria, :nombre)";
+        String queryText = "INSERT INTO categoria (nombre) " +
+                "VALUES (:nombre)";
         try (Connection connection = sql2o.open()) {
             connection.createQuery(queryText)
-                    .addParameter("id_categoria", categoria.getIdCategoria())
                     .addParameter("nombre", categoria.getNombre())
                     .executeUpdate();
         } catch (Exception e) {
