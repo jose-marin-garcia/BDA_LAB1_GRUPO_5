@@ -184,6 +184,7 @@ BEGIN
         COUNT(CASE WHEN tipo_operacion = 'DELETE' THEN 1 END) AS deletes,
         COUNT(*) AS total
     FROM query_audit
+    WHERE id_cliente IS NOT NULL
     GROUP BY query_audit.id_cliente
     ORDER BY total DESC;
 END;
