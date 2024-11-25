@@ -169,7 +169,7 @@ FOR EACH ROW EXECUTE FUNCTION registrar_actividad();
 
 CREATE OR REPLACE FUNCTION reporte_act_client()
 RETURNS TABLE(
-    usuario VARCHAR(255),
+    usuario INTEGER,
     inserts BIGINT,
     updates BIGINT,
     deletes BIGINT,
