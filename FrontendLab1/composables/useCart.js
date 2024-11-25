@@ -28,7 +28,6 @@ const increaseQuantity = (productId) => {
   const product = cartItems.value.find((item) => item.idProducto === productId);
   if (product && product.stock-product.quantity > 0) {
     product.quantity += 1;
-    product.stock -= 1;
   }
   else{
     alert("No hay stock disponible");
@@ -39,7 +38,6 @@ const decreaseQuantity = (productId) => {
   const product = cartItems.value.find((item) => item.idProducto === productId);
   if (product && product.quantity > 0) {
     product.quantity -= 1;
-    product.stock += 1;
   }
   if (product.quantity === 0) {
     removeItem(productId);
