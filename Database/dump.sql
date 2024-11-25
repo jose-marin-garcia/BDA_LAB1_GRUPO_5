@@ -26,7 +26,8 @@ INSERT INTO producto (nombre, descripcion, precio, stock, estado, id_categoria) 
 ('Silla Ergonomica', 'Silla cómoda para oficina', 200.00, 25, 'disponible', 3),
 ('Reloj Deportivo', 'Reloj con funciones de fitness', 120.00, 60, 'disponible', 4),
 ('Cuna para Bebé', 'Cuna ajustable para bebés', 220.00, 12, 'disponible', 3),
-('Juguete Educativo', 'Juguete que ayuda al desarrollo', 30.00, 80, 'disponible', 5);
+('Juguete Educativo', 'Juguete que ayuda al desarrollo', 30.00, 80, 'disponible', 5),
+('Monitor Curvo', 'Monitor de 32 pulgadas con curvatura', 299.99, 0, 'agotado', 1);
 
 -- Insertar clientes
 INSERT INTO cliente (nombre, direccion, email, telefono, password) VALUES 
