@@ -3,32 +3,32 @@
       <v-container color="primary">
         <!-- Primera fila: Enlaces útiles -->
         <v-row color="primary">
-          <v-col cols="12" md="4" color="primary">
+          <v-col cols="12" md="4" color="primary" >
             <h3 class="text-white text-uppercase">Enlaces útiles</h3>
-            <v-list color="primary">
+            <v-list color="primary" style="background: none !important; color: white;">
               <v-list-item
                 href="/privacidad"
               >
-                <v-icon left color="black">mdi-lock</v-icon>
-                <v-list-item-title class="text-black">Política de Privacidad</v-list-item-title>
+                <v-icon left >mdi-lock</v-icon>
+                <v-list-item-title >Política de Privacidad</v-list-item-title>
               </v-list-item>
               <v-list-item
                 href="/terminos"
               >
-                <v-icon left color="black">mdi-file-document-outline</v-icon>
-                <v-list-item-title class="text-black">Términos y Condiciones</v-list-item-title>
+                <v-icon left >mdi-file-document-outline</v-icon>
+                <v-list-item-title >Términos y Condiciones</v-list-item-title>
               </v-list-item>
               <v-list-item
                 href="/faq"
               >
-                <v-icon left color="black">mdi-help-circle-outline</v-icon>
-                <v-list-item-title class="text-black">Preguntas Frecuentes</v-list-item-title>
+                <v-icon left >mdi-help-circle-outline</v-icon>
+                <v-list-item-title >Preguntas Frecuentes</v-list-item-title>
               </v-list-item>
               <v-list-item
                 href="/contacto"
               >
-                <v-icon left color="black">mdi-email-outline</v-icon>
-                <v-list-item-title class="text-black">Contáctanos</v-list-item-title>
+                <v-icon left >mdi-email-outline</v-icon>
+                <v-list-item-title >Contáctanos</v-list-item-title>
               </v-list-item>
             </v-list>
           </v-col>
