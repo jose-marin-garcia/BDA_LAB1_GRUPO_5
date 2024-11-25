@@ -1,5 +1,6 @@
 package Laboratorio1BdaGrupo5.BackendLab1.repository;
 
+import Laboratorio1BdaGrupo5.BackendLab1.models.PriceHistory;
 import Laboratorio1BdaGrupo5.BackendLab1.models.Producto;
 
 import java.util.List;
@@ -18,5 +19,6 @@ public interface ProductoRepository {
     long getTotalCount();
     String getProductoName(Integer idProducto);
     Producto getMostVariablePriceProduct();
+    List<PriceHistory> getPriceHistory(Integer productoId);
     Producto getFirstProducto();
 }

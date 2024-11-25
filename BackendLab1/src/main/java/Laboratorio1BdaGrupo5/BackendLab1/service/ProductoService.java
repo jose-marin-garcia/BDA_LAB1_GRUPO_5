@@ -1,10 +1,13 @@
 package Laboratorio1BdaGrupo5.BackendLab1.service;
 
 import Laboratorio1BdaGrupo5.BackendLab1.models.Categoria;
+import Laboratorio1BdaGrupo5.BackendLab1.models.PriceHistory;
 import Laboratorio1BdaGrupo5.BackendLab1.models.Producto;
 import Laboratorio1BdaGrupo5.BackendLab1.repository.ProductoRepository;
 import Laboratorio1BdaGrupo5.BackendLab1.repository.ProductoRepositoryImp;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -113,6 +116,14 @@ public class ProductoService {
             return productoRepository.getMostVariablePriceProduct();
         } catch (Exception e) {
             throw new RuntimeException("Error al obtener el producto con precio más variable", e);
+        }
+    }
+
+    public List<PriceHistory> getPriceHistory(Integer productId) {
+        try {
+            return productoRepository.getPriceHistory(productId);
+        } catch (Exception e) {
+            throw new RuntimeException("Error al obtener el historial del producto", e);
         }
     }
 }

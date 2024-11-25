@@ -64,7 +64,7 @@
     </div> <!-- Cierre del div contenedor -->
 
     <!-- Popup (Modal) para mostrar el producto -->
-    <v-dialog v-model="isModalOpen" max-width="500">
+    <v-dialog v-model="isModalOpen1" max-width="500">
       <v-card>
         <v-card-title class="text-h5">
           Producto con la mayor variabilidad de precios en venta en las órdenes de compra, considerando las últimas 100 órdenes
@@ -82,14 +82,30 @@
             <p>No se encontraron datos del producto.</p>
           </div>
         </v-card-text>
+        <v-card-title class="text-h5">
+          Historial de Precios
+        </v-card-title>
+        <v-data-table
+          v-if="precios.length"
+          :items="precios"
+          :headers="priceHistoryHeaders"
+        >
+
+          <template v-slot:item.fecha="{ item }">
+            {{ new Date(item.fecha).toLocaleString() }}
+          </template>
+        </v-data-table>
+        <div v-else class="text-center mt-4">
+          <p>No hay historial de precios disponible.</p>
+        </div>
         <v-card-actions>
-          <v-btn color="primary" text @click="isModalOpen = false">Cerrar</v-btn>
+          <v-btn color="primary" text @click="isModalOpen1 = false">Cerrar</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
 
     <!-- Popup (Modal) para mostrar el reporte -->
-    <v-dialog v-model="isModalOpen" max-width="500">
+    <v-dialog v-model="isModalOpen2" max-width="500">
       <v-card>
         <v-card-title class="text-h5">
           Reporte con los usuarios que más queries de inserción, actualización o eliminación ejecutan con las respectivas consultas.
@@ -108,7 +124,7 @@
           </div>
         </v-card-text>
         <v-card-actions>
-          <v-btn color="primary" text @click="isModalOpen = false">Cerrar</v-btn>
+          <v-btn color="primary" text @click="isModalOpen2 = false">Cerrar</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -130,7 +146,13 @@ export default {
       isAuthenticated: false, // Se inicializa en falso
       producto: null, // Producto obtenido del backend
       report: null, // Reporte obtenido del backend
-      isModalOpen: false,
+      isModalOpen1: false,
+      isModalOpen2: false,
+      precios: [], // Historial de precios
+      priceHistoryHeaders: [
+        { title: 'Fecha', value: 'fecha' },
+        { title: 'Precio', value: 'precio' },
+      ],
     };
   },
   computed: {
@@ -176,10 +198,22 @@ export default {
         const response = await axios.get(`${API_URL}`);
         console.log("Datos recibidos:", response.data);
         this.report = response.data[0]; // Actualiza los datos del producto
-        this.isModalOpen = true; // Abre el modal
+        this.isModalOpen2 = true; // Abre el modal
       } catch (error) {
         console.error("Error fetching report:", error);
         alert("No se pudo obtener el reporte.");
+      }
+    },
+
+    async fetchPriceHistory() {
+      const API_URL = "http://localhost:8090/api/producto";
+      try {
+        const response = await axios.get(`${API_URL}/getPriceHistory/${this.producto.idProducto}`);
+        console.log("Datos recibidos:", response.data);
+        this.precios = response.data;
+      } catch (error) {
+        console.error("Error fetching price history:", error);
+        alert("No se pudo obtener el historial de precios.");
       }
     },
 
@@ -189,7 +223,9 @@ export default {
         const response = await axios.get(`${API_URL}/getVariablePriceProduct`);
         console.log("Datos recibidos:", response.data);
         this.producto = response.data; // Actualiza los datos del producto
-        this.isModalOpen = true; // Abre el modal
+        console.log("idProducto:", response.data.idProducto);
+        this.fetchPriceHistory();
+        this.isModalOpen1 = true; // Abre el modal
       } catch (error) {
         console.error("Error fetching variable price product:", error);
         alert("No se pudo obtener el producto con precio variable.");

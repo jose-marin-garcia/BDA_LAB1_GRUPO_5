@@ -1,5 +1,6 @@
 package Laboratorio1BdaGrupo5.BackendLab1.controller;
 
+import Laboratorio1BdaGrupo5.BackendLab1.models.PriceHistory;
 import Laboratorio1BdaGrupo5.BackendLab1.models.Producto;
 import Laboratorio1BdaGrupo5.BackendLab1.service.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -105,6 +108,21 @@ public class ProductoController {
                         .body(null);
             }
             return ResponseEntity.ok(product);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(null);
+        }
+    }
+
+    @GetMapping("/getPriceHistory/{id}")
+    public ResponseEntity<List<PriceHistory>> getPriceHistory(@PathVariable Integer id) {
+        try {
+            List<PriceHistory> prices = productoService.getPriceHistory(id);
+            if (prices == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(null);
+            }
+            return ResponseEntity.ok(prices);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(null);

@@ -1,5 +1,6 @@
 package Laboratorio1BdaGrupo5.BackendLab1.repository;
 
+import Laboratorio1BdaGrupo5.BackendLab1.models.PriceHistory;
 import Laboratorio1BdaGrupo5.BackendLab1.models.Producto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -195,6 +196,20 @@ public class ProductoRepositoryImp implements ProductoRepository {
             return product;
         } catch (Exception e) {
             throw new RuntimeException("Error fetching product with most variable price", e);
+        }
+    }
+
+    @Override
+    public List<PriceHistory> getPriceHistory(Integer productoId) {
+        String queryText = "SELECT DISTINCT d.precio_unitario AS precio, o.fecha_orden AS fecha " +
+                "FROM orden o JOIN detalle_orden d ON o.id_orden = d.id_orden " +
+                "WHERE d.id_producto = :productoId";
+        try (Connection connection = sql2o.open()) {
+            return connection.createQuery(queryText)
+                    .addParameter("productoId", productoId)
+                    .executeAndFetch(PriceHistory.class);
+        } catch (Exception e) {
+            throw new RuntimeException("Error al obtener historial de precios");
         }
     }
 
