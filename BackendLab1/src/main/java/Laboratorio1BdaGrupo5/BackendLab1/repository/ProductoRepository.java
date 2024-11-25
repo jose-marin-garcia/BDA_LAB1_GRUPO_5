@@ -11,6 +11,7 @@ public interface ProductoRepository {
     List<Producto> getProductosSearch(int limit, int offset, String search);
     Producto getProductoById(Integer idProducto);
     public List<Producto> getProductosPorCategoria(Integer idCategoria);
+    public List<Producto> getProductosPorCategoria(String name);
     void createProducto(Producto producto);
     void updateProducto(Producto producto);
     void deleteProducto(Integer idProducto);

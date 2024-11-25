@@ -34,8 +34,9 @@ public class ProductoRepositoryImp implements ProductoRepository {
 
     @Override
     public List<Producto> getProductosSearch(int limit, int offset, String search) {
+        search = search.toLowerCase();
         String queryText = "SELECT id_producto AS idProducto, nombre, descripcion, precio, stock, estado, id_categoria AS idCategoria " +
-                "FROM producto WHERE nombre LIKE CONCAT('%', :search, '%') LIMIT :limit OFFSET :offset";
+                "FROM producto WHERE LOWER(nombre) LIKE CONCAT('%', :search, '%') LIMIT :limit OFFSET :offset";
         try (Connection connection = sql2o.open()) {
             System.out.println("Conexión exitosa a la base de datos");
             return connection.createQuery(queryText)
@@ -69,6 +70,18 @@ public class ProductoRepositoryImp implements ProductoRepository {
         try (Connection connection = sql2o.open()) {
             return connection.createQuery(query)
                     .addParameter("idCategoria", idCategoria)
+                    .executeAndFetch(Producto.class);
+        }
+    }
+
+    @Override
+    public List<Producto> getProductosPorCategoria(String nombre) {
+        nombre = nombre.toLowerCase();
+        String query = "SELECT  id_producto AS idProducto, producto.nombre, descripcion, precio, stock, estado, producto.id_categoria AS idCategoria " +
+        "FROM producto, categoria WHERE producto.id_categoria = categoria.id_categoria AND (LOWER(categoria.nombre) LIKE :nombre)";
+        try (Connection connection = sql2o.open()) {
+            return connection.createQuery(query)
+                    .addParameter("nombre", "%" + nombre + "%")
                     .executeAndFetch(Producto.class);
         }
     }
