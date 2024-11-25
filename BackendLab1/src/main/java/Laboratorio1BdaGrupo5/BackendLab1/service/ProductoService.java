@@ -22,6 +22,7 @@ public class ProductoService {
 
     public List<Producto> getAllProductos(int limit, int offset, String search) {
         try {
+            System.out.println("Hola mundo");
             if (search.isEmpty()) {
                 return productoRepository.getProductos(limit, offset);
             } else {

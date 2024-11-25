@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface DetalleOrdenRepository {
     // Create
-    void createDetalleOrden(DetalleOrden detalleOrden);
+    void createDetalleOrden(DetalleOrden detalleOrden, Integer idCliente);
 
     // Read
     DetalleOrden getDetalleOrden(Integer idDetalleOrden);

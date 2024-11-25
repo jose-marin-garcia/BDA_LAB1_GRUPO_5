@@ -24,6 +24,7 @@ public class ProductoController {
             @RequestParam(defaultValue = "0") int offset,
             @RequestParam(defaultValue = "") String search) {
         try {
+            System.out.println("Hola mundo");
             List<Producto> productos = productoService.getAllProductos(limit, offset, search);
             long totalCount = productoService.getTotalCount(); // Obtén el total de productos
             if (!search.isEmpty()) {

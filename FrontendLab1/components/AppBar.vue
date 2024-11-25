@@ -49,7 +49,7 @@
 
       <!-- Botón para obtener el producto con mayor variabilidad de precios -->
       <v-btn text class="mx-2" @click="fetchVariablePriceProduct">
-        <v-icon class="mr-2">mdi-tag</v-icon>SQL
+        <v-icon class="mr-2">mdi-database</v-icon>SQL
       </v-btn>
     </div>
   </v-app-bar>

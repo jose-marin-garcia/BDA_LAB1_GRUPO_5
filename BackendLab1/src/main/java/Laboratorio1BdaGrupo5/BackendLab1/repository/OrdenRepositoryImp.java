@@ -13,6 +13,9 @@ public class OrdenRepositoryImp implements OrdenRepository {
     @Autowired
     private Sql2o sql2o;
 
+    @Autowired
+    private ClienteRepository clienteRepository;
+
     @Override
     public List<Orden> getOrdenes(int limit, int offset) {
         String queryText = "SELECT * FROM orden LIMIT :limit OFFSET :offset";
@@ -64,33 +67,43 @@ public class OrdenRepositoryImp implements OrdenRepository {
     }
 
     @Override
-    public Orden createOrden(Orden orden){
-        String queryText = "INSERT INTO orden (fecha_orden, estado, id_cliente, total) " +
-                "VALUES (:fecha_orden, :estado, :id_cliente, :total)";
-        try (Connection connection = sql2o.open()) {
-            System.out.println("Conexión exitosa a la base de datos");
-            orden.setEstado(orden.getEstado().toLowerCase());
-            connection.createQuery(queryText)
-                    .addParameter("fecha_orden", orden.getFechaOrden())
-                    .addParameter("estado", orden.getEstado())
-                    .addParameter("id_cliente", orden.getIdCliente())
-                    .addParameter("total", orden.getTotal())
-                    .executeUpdate();
+    public Orden createOrden(Orden orden) {
+        clienteRepository.registerSessionUserAndInsertOperation(orden.getIdCliente(), () -> {
+            String queryText = "INSERT INTO orden (fecha_orden, estado, id_cliente, total) " +
+                    "VALUES (:fecha_orden, :estado, :id_cliente, :total)";
+            try (Connection connection = sql2o.open()) {
+                System.out.println("Conexión exitosa a la base de datos");
 
-            // Recuperar el id generado para la nueva orden
-            String queryGetId = "SELECT currval('orden_id_orden_seq')";  // Ajusta el nombre de la secuencia a tu base de datos
-            Integer idGenerado = connection.createQuery(queryGetId)
-                    .executeScalar(Integer.class);
+                // Convertir estado a minúsculas
+                orden.setEstado(orden.getEstado().toLowerCase());
 
-            // Asignar el id generado a la orden
-            orden.setIdOrden(idGenerado);
+                // Insertar la orden
+                connection.createQuery(queryText)
+                        .addParameter("fecha_orden", orden.getFechaOrden())
+                        .addParameter("estado", orden.getEstado())
+                        .addParameter("id_cliente", orden.getIdCliente())
+                        .addParameter("total", orden.getTotal())
+                        .executeUpdate();
 
-        } catch (Exception e) {
-            System.err.println("Error en la conexión a la base de datos: " + e.getMessage());
-            throw new RuntimeException("Error al crear la orden", e);
+                // Recuperar el id generado para la nueva orden
+                String queryGetId = "SELECT currval('orden_id_orden_seq')";  // Cambia el nombre de la secuencia según tu base de datos
+                Integer idGenerado = connection.createQuery(queryGetId)
+                        .executeScalar(Integer.class);
+
+                // Asignar el id generado a la orden
+                orden.setIdOrden(idGenerado);
+
+                return orden; // Devuelve la orden creada
+            } catch (Exception e) {
+                System.err.println("Error en la conexión a la base de datos: " + e.getMessage());
+                throw new RuntimeException("Error al crear la orden", e);
+            }
         }
+
+        );
         return orden;
     }
+
 
     @Override
     public void updateOrden(Orden orden) {

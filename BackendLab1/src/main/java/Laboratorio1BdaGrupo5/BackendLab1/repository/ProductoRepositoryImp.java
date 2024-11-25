@@ -17,8 +17,10 @@ public class ProductoRepositoryImp implements ProductoRepository {
 
     @Override
     public List<Producto> getProductos(int limit, int offset) {
+        System.out.println("Hola mundo");
         String queryText = "SELECT id_producto AS idProducto, nombre, descripcion, precio, stock, estado, id_categoria AS idCategoria FROM producto LIMIT :limit OFFSET :offset";
         try (Connection connection = sql2o.open()) {
+            System.out.println("Hola mundo4");
             System.out.println("Conexión exitosa a la base de datos");
             return connection.createQuery(queryText)
                     .addParameter("limit", limit)

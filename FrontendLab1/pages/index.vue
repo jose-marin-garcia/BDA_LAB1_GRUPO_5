@@ -12,9 +12,9 @@
       <v-icon>mdi-magnify</v-icon>
     </v-btn>
     <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
-      <div v-for="product in products" :key="product.idProducto" class="border border-gray-300 rounded-lg shadow-md p-4">
+      <div v-for="product in products" :key="product.idProducto" class="border border-gray-300 rounded-lg shadow-md p-4 flex flex-col justify-between h-60">
         <h2 class="text-xl font-semibold mb-2">{{ product.nombre }}</h2>
-        <p class="text-gray-600 mb-2">{{ product.descripcion }}</p>
+        <p class="text-gray-600 mb-2 truncate overflow-hidden">{{ product.descripcion }}</p>
         <div class="flex justify-between items-center mb-4">
           <span class="text-xl font-bold">${{ product.precio }}</span>
           <span :class="['font-medium', getStockColorClass(product.stock)]">

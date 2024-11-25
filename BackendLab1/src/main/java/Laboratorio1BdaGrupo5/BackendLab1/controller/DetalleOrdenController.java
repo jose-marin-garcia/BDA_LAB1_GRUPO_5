@@ -14,13 +14,13 @@ import java.util.List;
 public class DetalleOrdenController {
     @Autowired
     DetalleOrdenService detalleOrdenService;
-
+/*
     @PostMapping("/create")
     public ResponseEntity createDetalleOrden(@RequestBody DetalleOrden detalleOrden) {
         detalleOrdenService.createDetalleOrden(detalleOrden);
         return ResponseEntity.ok(null);
     }
-
+*/
     @GetMapping("/get/{id}")
     public ResponseEntity<DetalleOrden> getDetalleOrdenById(@PathVariable Integer id) {
         return ResponseEntity.ok(detalleOrdenService.getDetalleOrdenById(id));

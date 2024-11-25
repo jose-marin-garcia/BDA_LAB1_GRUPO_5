@@ -87,7 +87,7 @@ public class OrdenService {
             orden = ordenRepository.createOrden(orden);
             for (DetalleOrden detalle : detalles) {
                 detalle.setIdOrden(orden.getIdOrden());
-                detalleOrdenService.createDetalleOrden(detalle);
+                detalleOrdenService.createDetalleOrden(detalle, orden.getIdCliente());
             }
         } catch (Exception e){
             throw new RuntimeException("Error al pagar la orden", e);

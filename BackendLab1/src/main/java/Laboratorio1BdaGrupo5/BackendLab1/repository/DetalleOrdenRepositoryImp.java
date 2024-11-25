@@ -15,21 +15,37 @@ public class DetalleOrdenRepositoryImp implements DetalleOrdenRepository {
     @Autowired
     private Sql2o sql2o;
 
+    @Autowired
+    private ClienteRepository clienteRepository;
+
     @Override
-    public void createDetalleOrden(DetalleOrden detalleOrden) {
-        System.out.println(detalleOrden.getPrecioUnitario());
-        String queryText = "INSERT INTO detalle_orden (id_orden, id_producto, cantidad, precio_unitario) " +
-                            "VALUES (:idOrden, :idProducto, :cantidad, :precioUnitario)";
-        try (Connection connection = sql2o.open()) {
-            connection.createQuery(queryText)
-                    .addParameter("idOrden", detalleOrden.getIdOrden())
-                    .addParameter("idProducto", detalleOrden.getIdProducto())
-                    .addParameter("cantidad", detalleOrden.getCantidad())
-                    .addParameter("precioUnitario", detalleOrden.getPrecioUnitario())
-                    .executeUpdate();
-        } catch (Exception e) {
-            throw new RuntimeException("No se pudo crear el DetalleOrden", e);
-        }
+    public void createDetalleOrden(DetalleOrden detalleOrden, Integer idCliente) {
+        clienteRepository.registerSessionUserAndInsertOperation(idCliente, () -> {
+            String queryText = "INSERT INTO session_users (session_id, id_cliente)\n" +
+                    "VALUES (pg_backend_pid(), :id_cliente)\n"+
+                    "ON CONFLICT (session_id) DO UPDATE SET id_cliente = :id_cliente";
+            try (Connection connection = sql2o.open()) {
+                connection.createQuery(queryText)
+                        .addParameter("id_cliente", idCliente)
+                        .executeUpdate();
+            } catch (Exception e) {
+                System.err.println("Error en la conexión a la base de datos: " + e.getMessage());
+                throw new RuntimeException("No se pudo crear el Cliente", e);
+            }
+            queryText = "INSERT INTO detalle_orden (id_orden, id_producto, cantidad, precio_unitario) " +
+                    "VALUES (:idOrden, :idProducto, :cantidad, :precioUnitario)";
+            try (Connection connection = sql2o.open()) {
+                connection.createQuery(queryText)
+                        .addParameter("idOrden", detalleOrden.getIdOrden())
+                        .addParameter("idProducto", detalleOrden.getIdProducto())
+                        .addParameter("cantidad", detalleOrden.getCantidad())
+                        .addParameter("precioUnitario", detalleOrden.getPrecioUnitario())
+                        .executeUpdate();
+            } catch (Exception e) {
+                throw new RuntimeException("No se pudo crear el DetalleOrden", e);
+            }
+            return null;
+        });
     }
 
     @Override

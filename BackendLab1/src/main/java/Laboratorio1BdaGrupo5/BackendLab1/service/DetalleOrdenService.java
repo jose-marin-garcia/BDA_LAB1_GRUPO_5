@@ -15,8 +15,8 @@ public class DetalleOrdenService {
     @Autowired
     DetalleOrdenRepositoryImp detalleOrdenRepository;
 
-    public void createDetalleOrden(DetalleOrden detalleOrden){
-        detalleOrdenRepository.createDetalleOrden(detalleOrden);
+    public void createDetalleOrden(DetalleOrden detalleOrden, Integer idCliente){
+        detalleOrdenRepository.createDetalleOrden(detalleOrden, idCliente);
     }
 
     public DetalleOrden getDetalleOrdenById(Integer idDetalleOrden){
