@@ -44,38 +44,77 @@
         <span v-if="cartCount > 0" class="badge">{{ cartCount }}</span>
       </v-btn>
 
-      <!-- Botón para obtener el producto con mayor variabilidad de precios -->
-      <v-btn text class="mx-2" @click="fetchVariablePriceProduct">
-        <v-icon class="mr-2">mdi-database</v-icon>SQL
-      </v-btn>
-    </div>
-  </v-app-bar>
+      <!-- Menú desplegable para funciones SQL -->
+      <v-menu offset-y>
+        <template v-slot:activator="{ props }">
+          <v-btn text v-bind="props">
+            <v-icon class="mr-2">mdi-database</v-icon>
+            SQL
+          </v-btn>
+        </template>
+        <v-list>
+          <v-list-item>
+            <v-btn text @click="fetchVariablePriceProduct">Producto con mayor variabilidad</v-btn>
+          </v-list-item>
+          <v-list-item>
+            <v-btn text @click="fetchVariableReport">Reporte</v-btn>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+    </div> <!-- Cierre del div contenedor -->
 
-  <!-- Popup (Modal) para mostrar el producto -->
-  <v-dialog v-model="isModalOpen" max-width="500">
-    <v-card>
-      <v-card-title class="text-h5">
-        Producto con la mayor variabilidad de precios en venta en las órdenes de compra, considerando las últimas 100 órdenes
-      </v-card-title>
-      <v-card-text>
-        <!-- Mostrar detalles del producto -->
-        <div v-if="producto">
-          <p><strong>Nombre:</strong> {{ producto.nombre }}</p>
-          <p><strong>Descripción:</strong> {{ producto.descripcion }}</p>
-          <p><strong>Precio:</strong> ${{ producto.precio }}</p>
-          <p><strong>Stock:</strong> {{ producto.stock }}</p>
-          <p><strong>Estado:</strong> {{ producto.estado }}</p>
-        </div>
-        <div v-else>
-          <p>No se encontraron datos del producto.</p>
-        </div>
-      </v-card-text>
-      <v-card-actions>
-        <v-btn color="primary" text @click="isModalOpen = false">Cerrar</v-btn>
-      </v-card-actions>
-    </v-card>
-  </v-dialog>
+    <!-- Popup (Modal) para mostrar el producto -->
+    <v-dialog v-model="isModalOpen" max-width="500">
+      <v-card>
+        <v-card-title class="text-h5">
+          Producto con la mayor variabilidad de precios en venta en las órdenes de compra, considerando las últimas 100 órdenes
+        </v-card-title>
+        <v-card-text>
+          <!-- Mostrar detalles del producto -->
+          <div v-if="producto">
+            <p><strong>Nombre:</strong> {{ producto.nombre }}</p>
+            <p><strong>Descripción:</strong> {{ producto.descripcion }}</p>
+            <p><strong>Precio:</strong> ${{ producto.precio }}</p>
+            <p><strong>Stock:</strong> {{ producto.stock }}</p>
+            <p><strong>Estado:</strong> {{ producto.estado }}</p>
+          </div>
+          <div v-else>
+            <p>No se encontraron datos del producto.</p>
+          </div>
+        </v-card-text>
+        <v-card-actions>
+          <v-btn color="primary" text @click="isModalOpen = false">Cerrar</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <!-- Popup (Modal) para mostrar el reporte -->
+    <v-dialog v-model="isModalOpen" max-width="500">
+      <v-card>
+        <v-card-title class="text-h5">
+          Reporte con los usuarios que más queries de inserción, actualización o eliminación ejecutan con las respectivas consultas.
+        </v-card-title>
+        <v-card-text>
+          <!-- Mostrar detalles del producto -->
+          <div v-if="report">
+            <p><strong>Id de usuario:</strong> {{ report.usuario }}</p>
+            <p><strong>Inserts:</strong> {{ report.inserts }}</p>
+            <p><strong>Updates:</strong> {{ report.updates }}</p>
+            <p><strong>Deletes:</strong> {{ report.deletes }}</p>
+            <p><strong>Total de queries:</strong> {{ report.total }}</p>
+          </div>
+          <div v-else>
+            <p>No hay un reporte</p>
+          </div>
+        </v-card-text>
+        <v-card-actions>
+          <v-btn color="primary" text @click="isModalOpen = false">Cerrar</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </v-app-bar>
 </template>
+
 
 <script>
 import { useCart } from "@/composables/useCart.js";
@@ -90,6 +129,7 @@ export default {
       userName: "",
       isAuthenticated: false, // Se inicializa en falso
       producto: null, // Producto obtenido del backend
+      report: null, // Reporte obtenido del backend
       isModalOpen: false,
     };
   },
@@ -128,6 +168,19 @@ export default {
       localStorage.removeItem("cartItems");
       this.actualizarEstadoAutenticacion();
       alert("Sesión cerrada exitosamente");
+    },
+
+    async fetchVariableReport() {
+      const API_URL = "http://localhost:8090/api/report";
+      try {
+        const response = await axios.get(`${API_URL}`);
+        console.log("Datos recibidos:", response.data);
+        this.report = response.data[0]; // Actualiza los datos del producto
+        this.isModalOpen = true; // Abre el modal
+      } catch (error) {
+        console.error("Error fetching report:", error);
+        alert("No se pudo obtener el reporte.");
+      }
     },
 
     async fetchVariablePriceProduct() {
